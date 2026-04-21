@@ -1,0 +1,17 @@
+.home_page {
+  width: 100dvw;
+  height: 100dvh;
+}
+
+.header {
+  height: 40px;
+  background-color: red;
+}
+
+.searchbar__wrapper {
+  background-color: green;
+  height: 95.9%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

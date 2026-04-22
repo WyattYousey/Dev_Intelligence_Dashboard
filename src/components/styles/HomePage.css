@@ -1,16 +1,24 @@
 .home_page {
-  width: 100dvw;
-  height: 100dvh;
+  height: 100vh;
 }
 
 .header {
-  height: 40px;
-  background-color: red;
+  padding-left: var(--spacing-4);
+  height: var(--spacing-9);
+  background-color: var(--secondary-bg-color);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.header__title {
+  font-family: var(--font-family-base);
+  color: var(--main-text-color);
 }
 
 .searchbar__wrapper {
-  background-color: green;
-  height: 95.9%;
+  background-color: var(--main-bg-color);
+  height: 93.4%;
   display: flex;
   justify-content: center;
   align-items: center;

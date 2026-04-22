@@ -1,7 +1,5 @@
-const RepoPage = () => {
-  return (
-    <div>RepoPage</div>
-  )
-}
+const RepoPage = ({ loading, setLoading, error, setError, user, repos, setRepos }) => {
+  return <div>RepoPage</div>;
+};
 
 export default RepoPage

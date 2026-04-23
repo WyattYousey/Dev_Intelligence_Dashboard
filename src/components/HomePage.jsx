@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import { getUser } from '../utils/GithubApi';
 import Preloader from './PreLoader';
 import SearchBar from './SearchBar';
@@ -5,16 +6,23 @@ import './styles/HomePage.css';
 import logo from '/favicon.svg';
 
 const HomePage = ({ loading, setLoading, setUser }) => {
-  const handleUserSearch = (username) => {
-    setLoading(true);
+  const navigate = useNavigate();
 
-    getUser(username)
-      .then((res) => {
-        setUser(res);
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
+  const handleUserSearch = async (username) => {
+    try {
+      setLoading(true);
+
+      const res = await getUser(username);
+      setUser(res);
+
+      navigate(`/user/${res.login}`);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <div className="home_page">
       <header className="header">

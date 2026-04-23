@@ -4,6 +4,7 @@ import './styles/App.css';
 import HomePage from './HomePage';
 import RepoPage from './RepoPage';
 import UserPage from './UserPage';
+import NotFound from './NotFound';
 import { useState } from 'react';
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
           />
         }
       />
+      <Route path="*" element={<NotFound/>} />
     </Routes>
   );
 }

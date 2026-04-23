@@ -8,10 +8,10 @@ import { useState } from 'react';
 
 function App() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const [user, setUser] = useState(null);
   const [repos, setRepos] = useState(null);
-  
+
   return (
     <Routes>
       <Route

@@ -87,6 +87,8 @@
   /* ===== ACCENT COLORS ===== */
   
   --accent-color: #72a17e;
+  --medium-accent-color: #396e46;
+  --dark-accent-color: #293e2e;
   --accent-error: #f86c6c;
 
   /* ===== SEMANTIC COLORS ===== */

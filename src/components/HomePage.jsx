@@ -1,19 +1,20 @@
 import { getUser } from '../utils/GithubApi';
+import Preloader from './PreLoader';
 import SearchBar from './SearchBar';
 import './styles/HomePage.css';
 import logo from '/favicon.svg';
 
 const HomePage = ({ loading, setLoading, setUser }) => {
-  
   const handleUserSearch = (username) => {
+    setLoading(true);
+
     getUser(username)
       .then((res) => {
-        console.log(res);
         setUser(res);
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setLoading(false));
   };
-
   return (
     <div className="home_page">
       <header className="header">
@@ -21,15 +22,16 @@ const HomePage = ({ loading, setLoading, setUser }) => {
         <h1 className="header__title">Dev Intelligence Dashboard</h1>
       </header>
 
-      <div className="home_page__main_content">
-        <SearchBar
-          placeholder="Search GitHub user..."
-          onSubmit={(username) => {
-            console.log('Searching for:', username);
-            handleUserSearch(username);
-          }}
-        />
-      </div>
+      {loading ? (
+        <Preloader />
+      ) : (
+        <div className="home_page__main_content">
+          <SearchBar
+            placeholder="Search GitHub user..."
+            onSubmit={handleUserSearch}
+          />
+        </div>
+      )}
     </div>
   );
 };

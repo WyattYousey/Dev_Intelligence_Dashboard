@@ -9,7 +9,7 @@ const Header = ({ children }) => {
         <h1 className="header__title">Dev Intelligence Dashboard</h1>
       </div>
 
-      {children}
+      {children && <div className="header__content">{children}</div>}
     </header>
   );
 };

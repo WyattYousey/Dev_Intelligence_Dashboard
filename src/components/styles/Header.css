@@ -1,6 +1,6 @@
 .header {
-  padding: var(--spacing-2);
-  height: var(--spacing-8);
+  padding: var(--spacing-3);
+  height: fit-content;
   background-color: var(--secondary-bg-color);
   display: flex;
   align-items: center;
@@ -17,4 +17,28 @@
 .header__title {
   font-family: var(--font-family-base);
   color: var(--main-text-color);
+}
+
+.header__content {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-md);
+  color: var(--main-text-color);
+  gap: var(--spacing-4);
+}
+
+.header__user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.header__user-avatar {
+  width: 48px;
+  border-radius: 50%;
+}
+
+.user-header__stats {
+  display: flex;
+  gap: var(--spacing-4)
 }

@@ -17,6 +17,7 @@ const HomePage = ({ loading, setLoading, setUser }) => {
 
       navigate(`/user/${res.login}`);
     } catch (err) {
+      navigate('/404/user/not/found');
       console.error(err);
     } finally {
       setLoading(false);
@@ -32,7 +33,7 @@ const HomePage = ({ loading, setLoading, setUser }) => {
       ) : (
         <div className="home_page__main_content">
           <SearchBar
-            placeholder="Search GitHub user..."
+            placeholder="Search for any GitHub user..."
             onSubmit={handleUserSearch}
           />
         </div>

@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import './styles/UserPage.css';
 import Header from './Header';
-import { getUserReadMe } from '../utils/GithubApi';
+import { getRepos, getUserReadMe } from '../utils/GithubApi';
 import { decodeBase64 } from '../utils/decodeBase64';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
+import RepoItem from './RepoItem';
 
 const UserPage = ({ loading, setLoading, error, setError, user, setUser }) => {
   const [readme, setReadMe] = useState('');
+  const [repos, setRepos] = useState(null);
 
   useEffect(() => {
     async function fetchReadme() {
@@ -18,7 +20,15 @@ const UserPage = ({ loading, setLoading, error, setError, user, setUser }) => {
       }
     }
 
+    async function fetchRepos() {
+      const content = await getRepos(user.login);
+      if (content) {
+        setRepos(content);
+      }
+    }
+
     fetchReadme();
+    fetchRepos();
   }, [user]);
   return (
     <div className="user_page">
@@ -51,6 +61,14 @@ const UserPage = ({ loading, setLoading, error, setError, user, setUser }) => {
             >
               {readme}
             </ReactMarkdown>
+          </div>
+        )}
+
+        {repos && (
+          <div className="user_page__repos">
+            {repos.map((repo) => (
+              <RepoItem repo={repo} key={repo.id} />
+            ))}
           </div>
         )}
       </div>

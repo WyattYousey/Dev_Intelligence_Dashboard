@@ -1,0 +1,64 @@
+.searchbar__wrapper {
+  position: relative;
+  width: 40%;
+}
+
+.searchbar {
+  width: 100%;
+  padding: var(--spacing-3);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-tight);
+  border: var(--border-width-thin) solid var(--inverse-border-color);
+  background-color: var(--card-bg-color);
+  color: var(--inverse-text-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.searchbar::placeholder {
+  color: var(--inverse-text-color);
+}
+
+.searchbar:focus {
+  background-color: var(--active-bg-color);
+  outline: var(--focus-outline-color);
+  box-shadow: var(--shadow-lg);
+  transform: scale(1.05);
+  transition:
+    transform 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6),
+    background-color 0.8s ease-in-out;
+  border-color: inherit;
+}
+
+.searchbar__submit_btn {
+  position: absolute;
+  top: 7px;
+  right: -20px;
+  background: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  z-index: 500;
+}
+
+.searchbar__submit_btn:hover {
+  cursor: pointer;
+  color: #434141;
+  transition: color 0.8s ease-in-out;
+}
+
+.searchbar:focus + .searchbar__submit_btn {
+  color: #434141;
+  right: -40px;
+  transition:
+    right 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6),
+    color 0.8s ease-in-out;
+}
+
+.searchbar:focus + .searchbar__submit_btn:hover {
+  cursor: pointer;
+  color: #000000;
+  transition: color 0.8s ease-in-out;
+}

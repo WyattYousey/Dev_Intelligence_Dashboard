@@ -97,10 +97,10 @@
   --inverse-bg-color: var(--gray-0);
 
   /* Text */
-  --main-text-color: var(--gray-200);        /* WCAG AAA on light bg */
-  --secondary-text-color: var(--gray-400);   /* WCAG AA on light bg */
+  --main-text-color: var(--gray-200);
+  --secondary-text-color: var(--gray-400);
   --muted-text-color: var(--gray-600);
-  --inverse-text-color: var(--gray-900);       /* for dark backgrounds */
+  --inverse-text-color: var(--gray-900); 
 
   /* Borders */
   --main-border-color: var(--gray-200);

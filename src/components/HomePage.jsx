@@ -3,7 +3,7 @@ import { getUser } from '../utils/GithubApi';
 import Preloader from './PreLoader';
 import SearchBar from './SearchBar';
 import './styles/HomePage.css';
-import logo from '/favicon.svg';
+import Header from './Header';
 
 const HomePage = ({ loading, setLoading, setUser }) => {
   const navigate = useNavigate();
@@ -25,10 +25,7 @@ const HomePage = ({ loading, setLoading, setUser }) => {
 
   return (
     <div className="home_page">
-      <header className="header">
-        <img className="header__logo" src={logo} alt="Code symbol for logo" />
-        <h1 className="header__title">Dev Intelligence Dashboard</h1>
-      </header>
+      <Header />
 
       {loading ? (
         <Preloader />

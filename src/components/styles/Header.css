@@ -1,0 +1,20 @@
+.header {
+  padding: var(--spacing-2);
+  height: var(--spacing-8);
+  background-color: var(--secondary-bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__branding {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding-left: var(--spacing-3);
+}
+
+.header__title {
+  font-family: var(--font-family-base);
+  color: var(--main-text-color);
+}

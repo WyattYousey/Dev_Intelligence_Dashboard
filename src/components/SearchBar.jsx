@@ -1,34 +1,28 @@
 import { useState } from 'react';
 import './styles/SearchBar.css';
+import { validateUserSearch } from '../utils/validateUserSearch';
 
-const SearchBar = ({
-  placeholder = 'Search...',
-  onSubmit,
-  minLength = 1,
-  maxLength = 50,
-}) => {
+const SearchBar = ({ placeholder = 'Search...', onSubmit }) => {
   const [value, setValue] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    if (value.trim().length < minLength) return;
 
-    onSubmit(value);
-    setValue('');
+    const trimmed = value.trim();
+
+    if (validateUserSearch(trimmed, setError)) {
+      onSubmit(trimmed);
+    }
   };
 
   return (
-    <form className="searchbar__wrapper" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="searchbar__wrapper">
       <input
         className="searchbar"
-        type="text"
-        placeholder={placeholder}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        minLength={minLength}
-        maxLength={maxLength}
-        required
+        placeholder={placeholder}
       />
 
       <button className="searchbar__submit_btn" type="submit">
@@ -57,6 +51,8 @@ const SearchBar = ({
           </g>
         </svg>
       </button>
+
+      {error && <p className="searchbar__error">{error}</p>}
     </form>
   );
 };

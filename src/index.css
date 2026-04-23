@@ -84,9 +84,10 @@
   --gray-900: #111827;
   --gray-1000: #000000;
 
-  /* ===== ACCENT COLOR ===== */
+  /* ===== ACCENT COLORS ===== */
   
   --accent-color: #72a17e;
+  --accent-error: #f86c6c;
 
   /* ===== SEMANTIC COLORS ===== */
 

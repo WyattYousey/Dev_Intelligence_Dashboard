@@ -3,10 +3,12 @@ import SearchBar from './SearchBar';
 import './styles/HomePage.css';
 import logo from '/favicon.svg';
 
-const HomePage = ({ loading, setLoading, error, setError, user, setUser }) => {
+const HomePage = ({ loading, setLoading, setUser }) => {
+  
   const handleUserSearch = (username) => {
     getUser(username)
       .then((res) => {
+        console.log(res);
         setUser(res);
       })
       .catch(console.error);
@@ -25,7 +27,6 @@ const HomePage = ({ loading, setLoading, error, setError, user, setUser }) => {
           onSubmit={(username) => {
             console.log('Searching for:', username);
             handleUserSearch(username);
-            console.log(user);
           }}
         />
       </div>

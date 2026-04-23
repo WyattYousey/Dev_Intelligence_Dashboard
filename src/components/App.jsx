@@ -20,9 +20,6 @@ function App() {
           <HomePage
             loading={loading}
             setLoading={setLoading}
-            error={error}
-            setError={setError}
-            user={user}
             setUser={setUser}
           />
         }

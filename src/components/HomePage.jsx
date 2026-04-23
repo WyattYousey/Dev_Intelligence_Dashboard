@@ -1,7 +1,17 @@
+import { getUser } from '../utils/GithubApi';
+import SearchBar from './SearchBar';
 import './styles/HomePage.css';
 import logo from '/favicon.svg';
 
 const HomePage = ({ loading, setLoading, error, setError, user, setUser }) => {
+  const handleUserSearch = (username) => {
+    getUser(username)
+      .then((res) => {
+        setUser(res);
+      })
+      .catch(console.error);
+  };
+
   return (
     <div className="home_page">
       <header className="header">
@@ -9,11 +19,15 @@ const HomePage = ({ loading, setLoading, error, setError, user, setUser }) => {
         <h1 className="header__title">Dev Intelligence Dashboard</h1>
       </header>
 
-      <div className="searchbar__wrapper">
-        <input className="searchbar" type="text" />
-        <button className="searchbar__submit_btn" type="submit">
-          Search
-        </button>
+      <div className="home_page__main_content">
+        <SearchBar
+          placeholder="Search GitHub user..."
+          onSubmit={(username) => {
+            console.log('Searching for:', username);
+            handleUserSearch(username);
+            console.log(user);
+          }}
+        />
       </div>
     </div>
   );

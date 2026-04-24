@@ -10,10 +10,11 @@ import { decodeBase64 } from '../utils/decodeBase64';
 import Preloader from '../components/PreLoader';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
 
-const UserPage = ({ loading, setLoading, user }) => {
+const UserPage = ({ loading, setLoading, user, setCurrentRepo }) => {
   const [readme, setReadMe] = useState('');
   const [readmeCache, setReadmeCache] = useLocalStorage('readme-cache', {});
   const [repos, setRepos] = useState(null);
+  const [repoCache, setRepoCache] = useLocalStorage('repo-cache', {});
   const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
@@ -72,36 +73,46 @@ const UserPage = ({ loading, setLoading, user }) => {
         </div>
       </Header>
 
-      <div className="user_page__main_content">
-        {readme && (
-          <div className="user_page__markdown">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeRaw]}
-            >
-              {readme}
-            </ReactMarkdown>
-          </div>
-        )}
-
-        {repos ? (
-          <div className="user_page__repos">
-            {slicedRepos.map((repo) => (
-              <RepoItem repo={repo} key={repo.id} />
-            ))}
-            {visibleCount < repos.length && (
-              <button
-                onClick={() => setVisibleCount((prev) => prev + 3)}
-                className="user_page__show_more"
+      {loading ? (
+        <Preloader />
+      ) : (
+        <div className="user_page__main_content">
+          {readme && (
+            <div className="user_page__markdown">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeRaw]}
               >
-                Show More
-              </button>
-            )}
-          </div>
-        ) : (
-          <Preloader />
-        )}
-      </div>
+                {readme}
+              </ReactMarkdown>
+            </div>
+          )}
+
+          {repos && (
+            <div className="user_page__repos">
+              {slicedRepos.map((repo) => (
+                <RepoItem
+                  repoCache={repoCache}
+                  setRepoCache={setRepoCache}
+                  setCurrentRepo={setCurrentRepo}
+                  repo={repo}
+                  user={user}
+                  setLoading={setLoading}
+                  key={repo.id}
+                />
+              ))}
+              {visibleCount < repos.length && (
+                <button
+                  onClick={() => setVisibleCount((prev) => prev + 3)}
+                  className="user_page__show_more"
+                >
+                  Show More
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -14,6 +14,7 @@ function App() {
   const [user, setUser] = useLocalStorage('user', null);
   const [userCache, setUserCache] = useLocalStorage('user', null);
   const [repos, setRepos] = useLocalStorage('repos', []);
+  const [currentRepo, setCurrentRepo] = useState(null);
   
   return (
     <Routes>
@@ -35,24 +36,19 @@ function App() {
           <UserPage
             loading={loading}
             setLoading={setLoading}
-            error={error}
-            setError={setError}
             user={user}
-            setUser={setUser}
+            setCurrentRepo={setCurrentRepo}
           />
         }
       />
       <Route
-        path="/repo/:user/:repos"
+        path="/repos/:user/:repo"
         element={
           <RepoPage
             loading={loading}
             setLoading={setLoading}
-            error={error}
-            setError={setError}
             user={user}
-            repos={repos}
-            setRepos={setRepos}
+            repo={currentRepo}
           />
         }
       />

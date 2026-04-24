@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
+import { decodeBase64 } from '../utils/decodeBase64';
 import '../components/styles/UserPage.css';
 import Header from '../components/Header';
 import RepoItem from '../components/RepoItem';
 import { getRepos, getUserReadMe } from '../utils/GithubApi';
-import { decodeBase64 } from '../utils/decodeBase64';
 import Preloader from '../components/PreLoader';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
 
@@ -59,8 +59,7 @@ const UserPage = ({ loading, setLoading, user, setCurrentRepo }) => {
       }
     }
 
-    fetchReadme();
-    fetchRepos();
+    Promise.all([fetchReadme(), fetchRepos()]);
   }, [user]);
 
   const slicedRepos = repos?.slice(0, visibleCount);

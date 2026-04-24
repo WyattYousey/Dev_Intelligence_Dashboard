@@ -40,8 +40,22 @@ const UserPage = ({ loading, setLoading, user, setCurrentRepo }) => {
 
     async function fetchRepos() {
       const content = await getRepos(user.login);
+      const normalizedContent = [];
+
       if (content) {
-        setRepos(content);
+        content.forEach((repo) => {
+          const normalizedRepo = {
+            id: repo.id,
+            name: repo.name,
+            description: repo?.description || 'No description provided',
+            language: repo?.language || 'No primary language',
+            forks: repo.forks,
+            stargazersCount: repo.stargazers_count,
+          };
+
+          normalizedContent.push(normalizedRepo);
+        });
+        setRepos(normalizedContent);
       }
     }
 

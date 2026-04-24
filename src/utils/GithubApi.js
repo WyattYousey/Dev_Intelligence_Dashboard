@@ -9,7 +9,6 @@ export async function getUser(username) {
     }
     
     const data = await result.json();
-    console.log('GET USER HIT', data);
     return data;
   } catch (error) {
     console.error('Fetch operation failed:', error.message);

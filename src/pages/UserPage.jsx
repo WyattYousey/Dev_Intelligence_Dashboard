@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import './styles/UserPage.css';
-import Header from './Header';
-import { getRepos, getUserReadMe } from '../utils/GithubApi';
-import { decodeBase64 } from '../utils/decodeBase64';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-import RepoItem from './RepoItem';
+import '../components/styles/UserPage.css';
+import Header from '../components/Header';
+import RepoItem from '../components/RepoItem';
+import { getRepos, getUserReadMe } from '../utils/GithubApi';
+import { decodeBase64 } from '../utils/decodeBase64';
 
-const UserPage = ({ loading, setLoading, error, setError, user, setUser }) => {
+const UserPage = ({ loading, setLoading, user }) => {
   const [readme, setReadMe] = useState('');
   const [repos, setRepos] = useState(null);
   const [visibleCount, setVisibleCount] = useState(3);
@@ -24,7 +24,13 @@ const UserPage = ({ loading, setLoading, error, setError, user, setUser }) => {
     async function fetchRepos() {
       const content = await getRepos(user.login);
       if (content) {
-        setRepos(content);
+        setRepos({
+          name: content.name,
+          description: content.description,
+          language: content.language,
+          forks: content.forks,
+          stargazers_count: content.stargazers_count,
+        });
       }
     }
 

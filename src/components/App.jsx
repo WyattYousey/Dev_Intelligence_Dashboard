@@ -1,10 +1,10 @@
 import { Routes } from 'react-router';
 import { Route } from 'react-router';
 import './styles/App.css';
-import HomePage from './HomePage';
-import RepoPage from './RepoPage';
-import UserPage from './UserPage';
-import NotFound from './NotFound';
+import HomePage from '../pages/HomePage';
+import RepoPage from '../pages/RepoPage';
+import UserPage from '../pages/UserPage';
+import NotFound from '../pages/NotFound';
 import { useState } from 'react';
 
 function App() {

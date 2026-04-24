@@ -1,10 +1,9 @@
-import React from 'react';
-import Header from './Header';
-import './styles/NotFound.css';
+import Header from '../components/Header';
+import '../components/styles/NotFound.css';
 
 const NotFound = () => {
   return (
-    <div className='not_found'>
+    <div className="not_found">
       <Header />
 
       <div style={{ textAlign: 'center', padding: '50px' }}>

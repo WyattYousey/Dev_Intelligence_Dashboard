@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router';
 import { getUser } from '../utils/GithubApi';
-import Preloader from './PreLoader';
-import SearchBar from './SearchBar';
-import './styles/HomePage.css';
-import Header from './Header';
+import Preloader from '../components/PreLoader';
+import SearchBar from '../components/SearchBar';
+import '../components/styles/HomePage.css';
+import Header from '../components/Header';
 
 const HomePage = ({ loading, setLoading, setUser }) => {
   const navigate = useNavigate();
@@ -13,9 +13,19 @@ const HomePage = ({ loading, setLoading, setUser }) => {
       setLoading(true);
 
       const res = await getUser(username);
-      setUser(res);
+      if (res.ok) {
+        setUser({
+          avatar_url: res.avatar_url,
+          login: res.login,
+          name: res.name,
+          bio: res.bio,
+          followers: res.followers,
+          following: res.following,
+          public_repos: res.public_repos,
+        });
 
-      navigate(`/user/${res.login}`);
+        navigate(`/user/${res.login}`);
+      }
     } catch (err) {
       navigate('/404/user/not/found');
       console.error(err);

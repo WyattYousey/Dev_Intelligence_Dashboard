@@ -1,11 +1,14 @@
 .repo_item {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 200px;
+  padding: var(--spacing-3);
   font-family: var(--font-family-base);
   gap: var(--spacing-1);
   background-color: var(--card-bg-color);
-  width: 15rem;
-  padding: var(--spacing-3);
   border: var(--border-width-thin) solid var(--accent-color);
   border-radius: var(--border-radius-lg);
 }
@@ -22,5 +25,5 @@
 }
 
 .repo_item__data {
-    color: var(--secondary-text-color)
+  color: var(--secondary-text-color);
 }

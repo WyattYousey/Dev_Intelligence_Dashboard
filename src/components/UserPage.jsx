@@ -11,6 +11,7 @@ import RepoItem from './RepoItem';
 const UserPage = ({ loading, setLoading, error, setError, user, setUser }) => {
   const [readme, setReadMe] = useState('');
   const [repos, setRepos] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
     async function fetchReadme() {
@@ -30,6 +31,8 @@ const UserPage = ({ loading, setLoading, error, setError, user, setUser }) => {
     fetchReadme();
     fetchRepos();
   }, [user]);
+
+  const slicedRepos = repos?.slice(0, visibleCount);
   return (
     <div className="user_page">
       <Header>
@@ -66,9 +69,17 @@ const UserPage = ({ loading, setLoading, error, setError, user, setUser }) => {
 
         {repos && (
           <div className="user_page__repos">
-            {repos.map((repo) => (
+            {slicedRepos.map((repo) => (
               <RepoItem repo={repo} key={repo.id} />
             ))}
+            {visibleCount < repos.length && (
+              <button
+                onClick={() => setVisibleCount((prev) => prev + 3)}
+                className="user_page__show_more"
+              >
+                Show More
+              </button>
+            )}
           </div>
         )}
       </div>

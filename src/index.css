@@ -97,6 +97,7 @@
   /* Backgrounds */
   --main-bg-color: var(--gray-700);
   --card-bg-color: var(--gray-500);
+  --button-bg-color: var(--gray-800);
   --secondary-bg-color: var(--gray-800);
   --inverse-bg-color: var(--gray-0);
 

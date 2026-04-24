@@ -10,11 +10,9 @@ import { useLocalStorage } from '../hooks/useLocalStorageHook';
 
 function App() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [user, setUser] = useLocalStorage('user', null);
-  const [userCache, setUserCache] = useLocalStorage('user', null);
-  const [repos, setRepos] = useLocalStorage('repos', []);
-  const [currentRepo, setCurrentRepo] = useState(null);
+  const [userCache, setUserCache] = useLocalStorage('user-cache', {});
+  const [currentRepo, setCurrentRepo] = useLocalStorage('currentRepo',null);
   
   return (
     <Routes>

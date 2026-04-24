@@ -21,7 +21,7 @@ const HomePage = ({
 
       if (userCache[username]) {
         setUser(userCache[username]);
-        navigate(`/user/${userCache[username].login}`);
+        navigate(`/user/${username}`);
         return;
       }
 

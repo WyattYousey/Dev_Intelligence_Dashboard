@@ -4,6 +4,7 @@ import Preloader from '../components/PreLoader';
 import SearchBar from '../components/SearchBar';
 import '../components/styles/HomePage.css';
 import Header from '../components/Header';
+import avatarUrlPlaceholder from '../assets/avatar_url_placeholder.svg';
 
 const HomePage = ({ loading, setLoading, setUser }) => {
   const navigate = useNavigate();
@@ -13,19 +14,18 @@ const HomePage = ({ loading, setLoading, setUser }) => {
       setLoading(true);
 
       const res = await getUser(username);
-      if (res.ok) {
-        setUser({
-          avatar_url: res.avatar_url,
-          login: res.login,
-          name: res.name,
-          bio: res.bio,
-          followers: res.followers,
-          following: res.following,
-          public_repos: res.public_repos,
-        });
 
-        navigate(`/user/${res.login}`);
-      }
+      setUser({
+        avatarUrl: res?.avatar_url || avatarUrlPlaceholder,
+        login: res.login,
+        name: res?.name || 'No name provided',
+        bio: res?.bio || 'No bio on profile',
+        followers: res.followers,
+        following: res.following,
+        publicRepos: res.public_repos,
+      });
+
+      navigate(`/user/${res.login}`);
     } catch (err) {
       navigate('/404/user/not/found');
       console.error(err);

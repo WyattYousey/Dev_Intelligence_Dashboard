@@ -7,6 +7,7 @@ import Header from '../components/Header';
 import RepoItem from '../components/RepoItem';
 import { getRepos, getUserReadMe } from '../utils/GithubApi';
 import { decodeBase64 } from '../utils/decodeBase64';
+import Preloader from '../components/PreLoader';
 
 const UserPage = ({ loading, setLoading, user }) => {
   const [readme, setReadMe] = useState('');
@@ -14,6 +15,9 @@ const UserPage = ({ loading, setLoading, user }) => {
   const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
+    if (!user?.login) return;
+    if (repos || readme) return;
+
     async function fetchReadme() {
       const content = await getUserReadMe(user.login);
       if (content) {
@@ -24,13 +28,7 @@ const UserPage = ({ loading, setLoading, user }) => {
     async function fetchRepos() {
       const content = await getRepos(user.login);
       if (content) {
-        setRepos({
-          name: content.name,
-          description: content.description,
-          language: content.language,
-          forks: content.forks,
-          stargazers_count: content.stargazers_count,
-        });
+        setRepos(content);
       }
     }
 
@@ -39,12 +37,13 @@ const UserPage = ({ loading, setLoading, user }) => {
   }, [user]);
 
   const slicedRepos = repos?.slice(0, visibleCount);
+
   return (
     <div className="user_page">
       <Header>
         <img
           className="header__user-avatar"
-          src={user.avatar_url}
+          src={user.avatarUrl}
           alt={user.login}
         />
         <div className="header__user-info">
@@ -56,7 +55,7 @@ const UserPage = ({ loading, setLoading, user }) => {
           <div className="header__user-stats">
             <span>{user.followers} followers</span>
             <span>{user.following} following</span>
-            <span>{user.public_repos} repos</span>
+            <span>{user.publicRepos} repos</span>
           </div>
         </div>
       </Header>
@@ -73,7 +72,7 @@ const UserPage = ({ loading, setLoading, user }) => {
           </div>
         )}
 
-        {repos && (
+        {repos ? (
           <div className="user_page__repos">
             {slicedRepos.map((repo) => (
               <RepoItem repo={repo} key={repo.id} />
@@ -87,6 +86,8 @@ const UserPage = ({ loading, setLoading, user }) => {
               </button>
             )}
           </div>
+        ) : (
+          <Preloader />
         )}
       </div>
     </div>

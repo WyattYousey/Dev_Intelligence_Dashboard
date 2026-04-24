@@ -6,12 +6,13 @@ import RepoPage from '../pages/RepoPage';
 import UserPage from '../pages/UserPage';
 import NotFound from '../pages/NotFound';
 import { useState } from 'react';
+import { useLocalStorage } from '../hooks/useLocalStorageHook';
 
 function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [user, setUser] = useState(null);
-  const [repos, setRepos] = useState(null);
+  const [user, setUser] = useLocalStorage('user', null);
+  const [repos, setRepos] = useLocalStorage('repos', []);
 
   return (
     <Routes>
@@ -52,7 +53,7 @@ function App() {
           />
         }
       />
-      <Route path="*" element={<NotFound/>} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

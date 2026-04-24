@@ -7,7 +7,7 @@ const RepoItem = ({ repo }) => {
       <p className="repo_item__description">{repo.description}</p>
       <span className="repo_item__data">{repo.language}</span>
       <span className="repo_item__data">{repo.forks} forks</span>
-      <span className="repo_item__data">{repo.stargazers_count} stars</span>
+      <span className="repo_item__data">{repo.stargazersCount} stars</span>
     </div>
   );
 };

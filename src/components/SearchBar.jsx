@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import './styles/SearchBar.css';
 import { validateUserSearch } from '../utils/validateUserSearch';
+import { useLocalStorage } from '../hooks/useLocalStorageHook';
 
 const SearchBar = ({ placeholder = 'Search...', onSubmit }) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useLocalStorage('value', '');
   const [error, setError] = useState('');
 
   const handleSubmit = (e) => {

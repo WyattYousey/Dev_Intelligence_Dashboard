@@ -12,8 +12,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [user, setUser] = useLocalStorage('user', null);
+  const [userCache, setUserCache] = useLocalStorage('user', null);
   const [repos, setRepos] = useLocalStorage('repos', []);
-
+  
   return (
     <Routes>
       <Route
@@ -23,6 +24,8 @@ function App() {
             loading={loading}
             setLoading={setLoading}
             setUser={setUser}
+            userCache={userCache}
+            setUserCache={setUserCache}
           />
         }
       />

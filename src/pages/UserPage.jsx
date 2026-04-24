@@ -8,9 +8,11 @@ import RepoItem from '../components/RepoItem';
 import { getRepos, getUserReadMe } from '../utils/GithubApi';
 import { decodeBase64 } from '../utils/decodeBase64';
 import Preloader from '../components/PreLoader';
+import { useLocalStorage } from '../hooks/useLocalStorageHook';
 
 const UserPage = ({ loading, setLoading, user }) => {
   const [readme, setReadMe] = useState('');
+  const [readmeCache, setReadmeCache] = useLocalStorage('readme-cache', {});
   const [repos, setRepos] = useState(null);
   const [visibleCount, setVisibleCount] = useState(3);
 
@@ -19,9 +21,19 @@ const UserPage = ({ loading, setLoading, user }) => {
     if (repos || readme) return;
 
     async function fetchReadme() {
-      const content = await getUserReadMe(user.login);
-      if (content) {
-        setReadMe(decodeBase64(content));
+      if (readmeCache[user.login] !== undefined) {
+        setReadMe(readmeCache[user.login]);
+      } else {
+        const content = await getUserReadMe(user.login);
+
+        const decoded = content ? decodeBase64(content) : null;
+
+        setReadMe(decoded);
+
+        setReadmeCache((prev) => ({
+          ...prev,
+          [user.login]: decoded,
+        }));
       }
     }
 

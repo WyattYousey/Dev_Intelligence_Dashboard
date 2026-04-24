@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import '../components/styles/RepoPage.css';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
 import { decodeBase64 } from '../utils/decodeBase64';
 import { fixGitHubImages } from '../utils/fixReadMeImagePaths';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
 import { getRepoData } from '../utils/GithubApi';
+import ReadMe from '../components/ReadMe';
 
 const RepoPage = ({ loading, setLoading, user, repo }) => {
   const [languageData, setLanguageData] = useState(null);
@@ -76,24 +74,8 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
       {loading ? (
         <Preloader />
       ) : (
-        <div className="user_page__main_content">
-          {readme && (
-            <div className="user_page__markdown">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw]}
-                components={{
-                  img: ({ src, alt }) => (
-                    <img src={src} alt={alt} style={{ maxWidth: '100%' }} />
-                  ),
-                }}
-              >
-                {readme}
-              </ReactMarkdown>
-            </div>
+        <ReadMe readme={readme} />
           )}
-        </div>
-      )}
     </div>
   );
 };

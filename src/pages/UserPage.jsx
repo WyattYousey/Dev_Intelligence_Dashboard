@@ -9,6 +9,7 @@ import RepoItem from '../components/RepoItem';
 import { getRepos, getUserReadMe } from '../utils/GithubApi';
 import Preloader from '../components/PreLoader';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
+import ReadMe from '../components/ReadMe';
 
 const UserPage = ({ loading, setLoading, user, setCurrentRepo }) => {
   const [readme, setReadMe] = useState('');
@@ -91,14 +92,7 @@ const UserPage = ({ loading, setLoading, user, setCurrentRepo }) => {
       ) : (
         <div className="user_page__main_content">
           {readme && (
-            <div className="user_page__markdown">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw]}
-              >
-                {readme}
-              </ReactMarkdown>
-            </div>
+              <ReadMe readme={readme} />
           )}
 
           {repos && (

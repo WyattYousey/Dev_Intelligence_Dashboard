@@ -1,4 +1,4 @@
 .repo_page {
   background-color: var(--main-bg-color);
-  height: 100vh;
+  height: fit-content;
 }

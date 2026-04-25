@@ -12,7 +12,9 @@
   "dependencies": {
     "@fontsource-variable/raleway": "^5.2.8",
     "@fontsource/raleway": "^5.2.8",
+    "chart.js": "^4.5.1",
     "react": "^19.2.5",
+    "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.5",
     "react-markdown": "^10.1.0",
     "react-router": "^7.14.2",

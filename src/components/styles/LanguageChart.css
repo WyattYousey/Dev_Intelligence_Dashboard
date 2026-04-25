@@ -1,0 +1,9 @@
+.language_chart {
+  margin: var(--spacing-9) auto auto;
+  border: var(--border-width-thin) solid var(--accent-color);
+  padding: var(--spacing-4);
+  border-radius: var(--border-radius-lg);
+  background-color: var(--card-bg-color);
+  width: 1200px;
+  height: 600px;
+}

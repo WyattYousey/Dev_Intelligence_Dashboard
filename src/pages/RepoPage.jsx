@@ -6,6 +6,7 @@ import { fixGitHubImages } from '../utils/fixReadMeImagePaths';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
 import { getRepoData } from '../utils/GithubApi';
 import ReadMe from '../components/ReadMe';
+import LanguageChart from '../components/LanguageChart';
 
 const RepoPage = ({ loading, setLoading, user, repo }) => {
   const [languageData, setLanguageData] = useState(null);
@@ -41,7 +42,7 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
     }
 
     async function fetchRepoLanguageData() {
-      const content = await getRepoData(user.login, repo.name, 'language');
+      const content = await getRepoData(user.login, repo.name, 'languages');
 
       setLanguageData(content);
     }
@@ -74,8 +75,11 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
       {loading ? (
         <Preloader />
       ) : (
-        <ReadMe readme={readme} />
-          )}
+        <div className="repo_page__main_content">
+          <LanguageChart languageData={languageData} />
+          <ReadMe readme={readme} />
+        </div>
+      )}
     </div>
   );
 };

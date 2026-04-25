@@ -27,6 +27,10 @@ const HomePage = ({
 
       const res = await getUser(username);
 
+      if (!res) {
+        throw new Error(404, { message: 'User not found' });
+      }
+      
       setUserCache((prev) => ({
         ...prev,
         [username]: {

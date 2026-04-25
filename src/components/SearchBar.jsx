@@ -9,6 +9,7 @@ const SearchBar = ({ placeholder = 'Search...', onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    e.stopPropagation();
 
     const trimmed = value.trim();
 

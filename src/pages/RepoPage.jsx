@@ -81,7 +81,7 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
           </div>
         </div>
       </Header>
-      
+
       {loading ? (
         <Preloader />
       ) : (
@@ -92,8 +92,9 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
             </DashboardWidget>
 
             <DashboardWidget title="Key Stats">
-              <StatCard label="Stars" value={repo.stars} />
-              <StatCard label="Forks" value={repo.forks} />
+              <StatCard label="Stars:" value={repo.stargazers_count} />
+              <StatCard label="Forks:" value={repo.forks} />
+              <StatCard label="Open Issues:" value={repo.open_issues} />
             </DashboardWidget>
 
             <DashboardWidget title="Languages">

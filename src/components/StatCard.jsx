@@ -1,3 +1,5 @@
+import './styles/StatCard.css';
+
 const StatCard = ({ label, value }) => {
     return <div className="stat">
         <p className="stat__label">{label}</p>

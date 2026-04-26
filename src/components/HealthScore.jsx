@@ -1,8 +1,9 @@
+import './styles/HealthScore.css';
+
 const HealthScore = ({ score }) => {
   return (
     <div className="health">
-      <span>{score}</span>
-      <p>Health Score</p>
+      <span className="health__score">{score}%</span>
     </div>
   );
 };

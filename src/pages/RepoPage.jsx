@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
 
 import Header from '../components/Header';
@@ -25,6 +25,18 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
   );
 
   console.log(repo);
+
+  const starsScore = Math.min(repo.stargazers_count / 1000, 1) * 40;
+  const daysSinceUpdate =
+    (Date.now() - new Date(repo.pushed_at)) / (1000 * 60 * 60 * 24);
+  const activityScore =
+    daysSinceUpdate < 30 ? 30 : daysSinceUpdate < 90 ? 20 : 10;
+  const issueRatio = repo.open_issues_count / (repo.stargazers_count + 1);
+  const issueScore = issueRatio < 0.1 ? 20 : issueRatio < 0.3 ? 10 : 5;
+  const completenessScore = (repo.description ? 5 : 0) + (repo.license ? 5 : 0);
+  const totalScore = Math.round(
+    starsScore + activityScore + issueScore + completenessScore
+  );
 
   useEffect(() => {
     if (!repo?.name) return;
@@ -87,25 +99,33 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
       ) : (
         <div className="repo_page__main_content">
           <DashboardLayout>
-            <DashboardWidget title="Health Score">
-              {/* <HealthScore score={score} /> */}
+            <DashboardWidget size="small" title="Health Score">
+              <HealthScore score={totalScore} />
             </DashboardWidget>
 
-            <DashboardWidget title="Key Stats">
+            <DashboardWidget size="small" title="Key Stats">
               <StatCard label="Stars:" value={repo.stargazers_count} />
               <StatCard label="Forks:" value={repo.forks} />
               <StatCard label="Open Issues:" value={repo.open_issues} />
+              <StatCard label="Visibility:" value={repo.visibility} />
             </DashboardWidget>
 
-            <DashboardWidget title="Languages">
+            <DashboardWidget size="small" title="Activity">
+              <p>{daysSinceUpdate < 30 ? '🟢 Active' : '⚪ Stale'}</p>
+              <span>{Math.floor(daysSinceUpdate)} days ago</span>
+            </DashboardWidget>
+
+            <DashboardWidget size="small" title="Primary Language" />
+
+            <DashboardWidget size="medium" title="Languages">
               <LanguageChart languageData={languageData} />
             </DashboardWidget>
 
-            <DashboardWidget title="Metadata">
+            <DashboardWidget size="medium" title="Metadata">
               {/* <MetaGrid data={metaData} /> */}
             </DashboardWidget>
 
-            <DashboardWidget title="README">
+            <DashboardWidget size="large" title="README">
               <ReadMe readme={readme} />
             </DashboardWidget>
           </DashboardLayout>

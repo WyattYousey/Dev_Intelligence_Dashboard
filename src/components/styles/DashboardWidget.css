@@ -1,0 +1,11 @@
+.widget {
+  background: #1e1e1e;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.widget__title {
+  margin-bottom: 8px;
+  font-size: 14px;
+  opacity: 0.7;
+}

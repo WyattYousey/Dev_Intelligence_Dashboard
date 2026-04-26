@@ -97,12 +97,6 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
             <span className="header__user-login">@{user.login}</span>]
           </h1>
           <p>{repo.description}</p>
-          <div className="header__user-stats">
-            <span>{repo.forks} forks</span>
-            <span>{repo.stargazers_count} stars</span>
-            <span>{repo.open_issues} open issues</span>
-            {repo.language && <span>{repo.language}</span>}
-          </div>
         </div>
       </Header>
 
@@ -119,7 +113,6 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
               <StatCard label="Stars:" value={repo.stargazers_count} />
               <StatCard label="Forks:" value={repo.forks} />
               <StatCard label="Open Issues:" value={repo.open_issues} />
-              <StatCard label="Visibility:" value={repo.visibility} />
             </DashboardWidget>
 
             <DashboardWidget size="small" title="Activity">

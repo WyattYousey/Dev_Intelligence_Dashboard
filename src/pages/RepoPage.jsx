@@ -61,34 +61,32 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
   }, [repo?.name, user.login]);
   return (
     <div className="repo_page">
+      <Header>
+        <img
+          className="header__user-avatar"
+          src={user.avatarUrl}
+          alt={user.login}
+        />
+        <div className="header__user-info">
+          <h1>
+            {repo.name || repo.login} [
+            <span className="header__user-login">@{user.login}</span>]
+          </h1>
+          <p>{repo.description}</p>
+          <div className="header__user-stats">
+            <span>{repo.forks} forks</span>
+            <span>{repo.stargazers_count} stars</span>
+            <span>{repo.open_issues} open issues</span>
+            {repo.language && <span>{repo.language}</span>}
+          </div>
+        </div>
+      </Header>
+      
       {loading ? (
         <Preloader />
       ) : (
         <div className="repo_page__main_content">
-          <DashboardLayout
-            header={
-              <Header>
-                <img
-                  className="header__user-avatar"
-                  src={user.avatarUrl}
-                  alt={user.login}
-                />
-                <div className="header__user-info">
-                  <h1>
-                    {repo.name || repo.login} [
-                    <span className="header__user-login">@{user.login}</span>]
-                  </h1>
-                  <p>{repo.description}</p>
-                  <div className="header__user-stats">
-                    <span>{repo.forks} forks</span>
-                    <span>{repo.stargazers_count} stars</span>
-                    <span>{repo.open_issues} open issues</span>
-                    {repo.language && <span>{repo.language}</span>}
-                  </div>
-                </div>
-              </Header>
-            }
-          >
+          <DashboardLayout>
             <DashboardWidget title="Health Score">
               {/* <HealthScore score={score} /> */}
             </DashboardWidget>

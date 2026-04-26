@@ -82,6 +82,7 @@
   --gray-600: #4b5563;
   --gray-700: #374151;
   --gray-800: #1f2933;
+  --gray-850: #353c42;
   --gray-900: #111827;
   --gray-1000: #000000;
 
@@ -96,7 +97,7 @@
 
   /* Backgrounds */
   --main-bg-color: var(--gray-700);
-  --card-bg-color: var(--gray-500);
+  --card-bg-color: var(--gray-850);
   --button-bg-color: var(--gray-800);
   --secondary-bg-color: var(--gray-800);
   --inverse-bg-color: var(--gray-0);

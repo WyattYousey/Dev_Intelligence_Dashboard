@@ -2,3 +2,9 @@
   background-color: var(--main-bg-color);
   height: fit-content;
 }
+
+.repo_page__main_content {
+  width: 90%;
+  margin: var(--spacing-5) auto auto;
+  padding-bottom: var(--spacing-4);
+}

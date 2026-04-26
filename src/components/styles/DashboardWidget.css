@@ -1,11 +1,29 @@
 .widget {
-  background: #1e1e1e;
+  background: var(--card-bg-color);
+  border: var(--accent-color) solid var(--border-width-thin);
   padding: 16px;
   border-radius: 12px;
+  font-family: var(--font-family-base);
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.widget::-webkit-scrollbar {
+  display: none;
+}
+
+.widget:last-child {
+  grid-column: 1 / -1;
+  align-self: stretch;
 }
 
 .widget__title {
   margin-bottom: 8px;
-  font-size: 14px;
-  opacity: 0.7;
+  font-size: var(--font-size-lg);
+  color: var(--main-text-color);
+}
+
+.widget__content {
+  color: var(--muted-text-color);
 }

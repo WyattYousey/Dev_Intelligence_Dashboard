@@ -1,8 +1,11 @@
 .dashboard {
   display: grid;
   grid-template-rows: auto 1fr;
-  height: 100vh;
+  height: fit-content;
   gap: 16px;
+  background-color: var(--gray-1000);
+  padding: var(--spacing-3);
+  border-radius: var(--border-radius-xl);
 }
 
 .dashboard__grid {

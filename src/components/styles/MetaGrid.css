@@ -1,0 +1,22 @@
+.meta_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: var(--spacing-9);
+}
+
+.meta_grid__item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--gray-900);
+  padding: var(--spacing-2);
+  border: var(--accent-color) solid var(--border-width-thin);
+  border-radius: var(--border-radius-md);
+}
+
+.meta_grid__item_label {
+    font-size: var(--font-size-lg);
+    color: var(--main-text-color);
+}

@@ -17,6 +17,7 @@ import { fixGitHubImages } from '../utils/fixReadMeImagePaths';
 import { getRepoData } from '../utils/GithubApi';
 import Activity from '../components/Activity';
 import PrimaryLanguage from '../components/PrimaryLanguage';
+import { formatDate, formatSize } from '../utils/helpers';
 
 const RepoPage = ({ loading, setLoading, user, repo }) => {
   const [languageData, setLanguageData] = useState(null);
@@ -39,6 +40,15 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
   const totalScore = Math.round(
     starsScore + activityScore + issueScore + completenessScore
   );
+
+  const metaData = [
+    { label: 'Created', value: formatDate(repo.created_at) },
+    { label: 'Last Updated', value: formatDate(repo.pushed_at) },
+    { label: 'Default Branch', value: repo.default_branch },
+    { label: 'License', value: repo.license?.name || 'None' },
+    { label: 'Visibility', value: repo.visibility },
+    { label: 'Repo Size', value: formatSize(repo.size) },
+  ];
 
   useEffect(() => {
     if (!repo?.name) return;
@@ -117,7 +127,7 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
             </DashboardWidget>
 
             <DashboardWidget size="small" title="Primary Language">
-                <PrimaryLanguage repo={repo} languageData={languageData} />
+              <PrimaryLanguage repo={repo} languageData={languageData} />
             </DashboardWidget>
 
             <DashboardWidget size="medium" title="Languages">
@@ -125,7 +135,7 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
             </DashboardWidget>
 
             <DashboardWidget size="medium" title="Metadata">
-              {/* <MetaGrid data={metaData} /> */}
+              <MetaGrid data={metaData} />
             </DashboardWidget>
 
             <DashboardWidget size="large" title="README">

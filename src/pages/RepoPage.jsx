@@ -1,12 +1,20 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/Header';
-import '../components/styles/RepoPage.css';
-import { decodeBase64 } from '../utils/decodeBase64';
-import { fixGitHubImages } from '../utils/fixReadMeImagePaths';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
-import { getRepoData } from '../utils/GithubApi';
+
+import Header from '../components/Header';
+import DashboardLayout from '../components/DashboardLayout';
+import DashboardWidget from '../components/DashboardWidget';
+import StatCard from '../components/StatCard';
+import HealthScore from '../components/HealthScore';
+import MetaGrid from '../components/MetaGrid';
 import ReadMe from '../components/ReadMe';
 import LanguageChart from '../components/LanguageChart';
+
+import '../components/styles/RepoPage.css';
+
+import { decodeBase64 } from '../utils/decodeBase64';
+import { fixGitHubImages } from '../utils/fixReadMeImagePaths';
+import { getRepoData } from '../utils/GithubApi';
 
 const RepoPage = ({ loading, setLoading, user, repo }) => {
   const [languageData, setLanguageData] = useState(null);
@@ -53,33 +61,55 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
   }, [repo?.name, user.login]);
   return (
     <div className="repo_page">
-      <Header>
-        <img
-          className="header__user-avatar"
-          src={user.avatarUrl}
-          alt={user.login}
-        />
-        <div className="header__user-info">
-          <h2>
-            {repo.name || repo.login} [
-            <span className="header__user-login">@{user.login}</span>]
-          </h2>
-          <p>{repo.description}</p>
-          <div className="header__user-stats">
-            <span>{repo.forks} forks</span>
-            <span>{repo.stargazers_count} stars</span>
-            <span>{repo.open_issues} open issues</span>
-            {repo.language && <span>{repo.language}</span>}
-          </div>
-        </div>
-      </Header>
-
       {loading ? (
         <Preloader />
       ) : (
         <div className="repo_page__main_content">
-          <ReadMe readme={readme} />
-          <LanguageChart languageData={languageData} />
+          <DashboardLayout
+            header={
+              <Header>
+                <img
+                  className="header__user-avatar"
+                  src={user.avatarUrl}
+                  alt={user.login}
+                />
+                <div className="header__user-info">
+                  <h1>
+                    {repo.name || repo.login} [
+                    <span className="header__user-login">@{user.login}</span>]
+                  </h1>
+                  <p>{repo.description}</p>
+                  <div className="header__user-stats">
+                    <span>{repo.forks} forks</span>
+                    <span>{repo.stargazers_count} stars</span>
+                    <span>{repo.open_issues} open issues</span>
+                    {repo.language && <span>{repo.language}</span>}
+                  </div>
+                </div>
+              </Header>
+            }
+          >
+            <DashboardWidget title="Health Score">
+              {/* <HealthScore score={score} /> */}
+            </DashboardWidget>
+
+            <DashboardWidget title="Key Stats">
+              <StatCard label="Stars" value={repo.stars} />
+              <StatCard label="Forks" value={repo.forks} />
+            </DashboardWidget>
+
+            <DashboardWidget title="Languages">
+              <LanguageChart languageData={languageData} />
+            </DashboardWidget>
+
+            <DashboardWidget title="Metadata">
+              {/* <MetaGrid data={metaData} /> */}
+            </DashboardWidget>
+
+            <DashboardWidget title="README">
+              <ReadMe readme={readme} />
+            </DashboardWidget>
+          </DashboardLayout>
         </div>
       )}
     </div>

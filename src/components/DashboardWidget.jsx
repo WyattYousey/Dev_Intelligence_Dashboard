@@ -3,7 +3,7 @@ import './styles/DashboardWidget.css';
 const DashboardWidget = ({title, children}) => {
   return (
       <div className="widget">
-          <div className="widget__title">{title}</div>
+          <h2 className="widget__title">{title}</h2>
           <div className="widget__content">{children}</div>
     </div>
   )

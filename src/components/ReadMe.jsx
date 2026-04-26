@@ -1,7 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
-import '../components/styles/ReadMe.css';
+import './styles/ReadMe.css';
 
 const ReadMe = ({ readme }) => {
   return (

@@ -16,6 +16,8 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
     {}
   );
 
+  console.log(repo);
+
   useEffect(() => {
     if (!repo?.name) return;
 
@@ -76,8 +78,8 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
         <Preloader />
       ) : (
         <div className="repo_page__main_content">
-          <LanguageChart languageData={languageData} />
           <ReadMe readme={readme} />
+          <LanguageChart languageData={languageData} />
         </div>
       )}
     </div>

@@ -8,7 +8,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import '../components/styles/LanguageChart.css';
+import './styles/LanguageChart.css';
 
 const LanguageChart = ({ languageData }) => {
   if (!languageData) return null;

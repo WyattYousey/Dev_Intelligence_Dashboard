@@ -15,6 +15,8 @@ import '../components/styles/RepoPage.css';
 import { decodeBase64 } from '../utils/decodeBase64';
 import { fixGitHubImages } from '../utils/fixReadMeImagePaths';
 import { getRepoData } from '../utils/GithubApi';
+import Activity from '../components/Activity';
+import PrimaryLanguage from '../components/PrimaryLanguage';
 
 const RepoPage = ({ loading, setLoading, user, repo }) => {
   const [languageData, setLanguageData] = useState(null);
@@ -111,11 +113,12 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
             </DashboardWidget>
 
             <DashboardWidget size="small" title="Activity">
-              <p>{daysSinceUpdate < 30 ? '🟢 Active' : '⚪ Stale'}</p>
-              <span>{Math.floor(daysSinceUpdate)} days ago</span>
+              <Activity daysSinceUpdate={daysSinceUpdate} />
             </DashboardWidget>
 
-            <DashboardWidget size="small" title="Primary Language" />
+            <DashboardWidget size="small" title="Primary Language">
+                <PrimaryLanguage repo={repo} languageData={languageData} />
+            </DashboardWidget>
 
             <DashboardWidget size="medium" title="Languages">
               <LanguageChart languageData={languageData} />

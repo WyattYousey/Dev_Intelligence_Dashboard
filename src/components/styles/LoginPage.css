@@ -1,0 +1,84 @@
+.login_page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--main-bg-color);
+  height: 100vh;
+  overflow: hidden;
+  font-family: var(--font-family-base);
+}
+
+.login_page__title {
+  position: absolute;
+  top: 5rem;
+  font-size: var(--font-size-4xl);
+  color: var(--main-text-color);
+}
+
+.login_page__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: var(--spacing-2);
+}
+
+.login_page__input {
+  width: 100%;
+  padding: var(--spacing-3);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-tight);
+  border: var(--border-width-thin) solid var(--inverse-border-color);
+  background-color: var(--card-bg-color);
+  color: var(--main-text-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.login_page__input::placeholder {
+  color: var(--main-text-color);
+}
+
+.login_page__input:focus {
+  background-color: var(--active-bg-color);
+  color: var(--inverse-text-color);
+  outline: var(--focus-outline-color);
+  box-shadow: var(--shadow-lg);
+  transform: scale(1.05);
+  transition:
+    transform 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6),
+    background-color 0.8s ease-in-out;
+  border-color: inherit;
+}
+
+.login_page__input:focus::placeholder {
+  color: var(--inverse-text-color);
+}
+
+.login_page__buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.login_page__button {
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--border-radius-full);
+  border: var(--border-width-medium) solid var(--accent-color);
+  background-color: var(--button-bg-color);
+  color: var(--main-text-color);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-bold);
+  box-shadow: var(--shadow-md);
+}
+
+.login_page__button:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  background-color: var(--hover-bg-color);
+  color: var(--focus-outline-color);
+  border-color: var(--medium-accent-color);
+  box-shadow: var(--shadow-md);
+  transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}

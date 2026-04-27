@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { loginUser, register, createFakeJWT, isTokenValid } from '../utils/auth';
+import {
+  loginUser,
+  register,
+  createFakeJWT,
+  isTokenValid,
+} from '../utils/auth';
+
+import '../components/styles/LoginPage.css';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -33,31 +40,41 @@ const LoginPage = () => {
     }
   };
 
-    useEffect(() => {
-      const token = localStorage.getItem('token');
-      if (token && isTokenValid(token)) {
-        navigate('/');
-      }
-    }, []);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token && isTokenValid(token)) {
+      navigate('/');
+    }
+  }, []);
   return (
     <div className="login_page">
-      <h1>Dev Intelligence Dashboard</h1>
+      <h1 className="login_page__title">Dev Intelligence Dashboard</h1>
 
-      <input
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
+      <form className="login_page__form">
+        <input
+          className="login_page__input"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <input
+          className="login_page__input"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </form>
 
-      <button onClick={handleLogin}>Login</button>
-      <button onClick={handleRegister}>Create Account</button>
+      <div className="login_page__buttons">
+        <button className="login_page__button" onClick={handleLogin}>
+          Login
+        </button>
+        <button className="login_page__button" onClick={handleRegister}>
+          Create Account
+        </button>
+      </div>
 
       {error && <p className="error">{error}</p>}
     </div>

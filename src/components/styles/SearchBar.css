@@ -32,7 +32,7 @@
   border-color: inherit;
 }
 
-input:focus::placeholder {
+.searchbar:focus::placeholder {
   color: var(--inverse-text-color);
 }
 

@@ -119,9 +119,13 @@ const UserPage = ({ setCurrentUser, loading, setLoading }) => {
           <DashboardWidget
             size="medium"
             title="README"
-            className="widget--reame"
+            className="widget--readme"
           >
-            {readme && <ReadMe readme={readme} />}
+            {readme ? (
+              <ReadMe readme={readme} />
+            ) : (
+              <p>No Profile ReadMe Provided</p>
+            )}
           </DashboardWidget>
 
           <DashboardWidget

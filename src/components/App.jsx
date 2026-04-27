@@ -35,7 +35,6 @@ function App() {
         path="/user/:username"
         element={
           <UserPage
-            loading={loading}
             setLoading={setLoading}
             user={user}
             setCurrentRepo={setCurrentRepo}
@@ -46,8 +45,6 @@ function App() {
         path="/repos/:user/:repo"
         element={
           <RepoPage
-            loading={loading}
-            setLoading={setLoading}
             user={user}
             repo={currentRepo}
           />

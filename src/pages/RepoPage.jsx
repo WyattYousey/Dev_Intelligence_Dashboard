@@ -17,7 +17,6 @@ import { fixGitHubImages } from '../utils/fixReadMeImagePaths';
 import { getRepoData } from '../utils/GithubApi';
 import Activity from '../components/Activity';
 import PrimaryLanguage from '../components/PrimaryLanguage';
-import { formatDate, formatSize } from '../utils/helpers';
 import { normalizeRepoDetails } from '../utils/normalize/normalizeRepoDetails';
 
 const RepoPage = ({ user, repo }) => {

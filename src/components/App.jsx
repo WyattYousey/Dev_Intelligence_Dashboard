@@ -10,6 +10,8 @@ import NotFound from '../pages/NotFound';
 
 import { useState } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
+import LoginPage from '../pages/LoginPage';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -18,34 +20,49 @@ function App() {
 
   return (
     <Routes>
+      <Route path="/login" element={<LoginPage />} />
+
       <Route
         path="/"
         element={
-          <HomePage />
+          <ProtectedRoute>
+            <HomePage />
+          </ProtectedRoute>
         }
       />
       <Route
         path="/user/:username"
         element={
-          <UserPage
-            setCurrentUser={setCurrentUser}
-            loading={loading}
-            setLoading={setLoading}
-          />
+          <ProtectedRoute>
+            <UserPage
+              setCurrentUser={setCurrentUser}
+              loading={loading}
+              setLoading={setLoading}
+            />
+          </ProtectedRoute>
         }
       />
       <Route
         path="/repos/:username/:repoName"
         element={
-          <RepoPage
-            setCurrentRepo={setCurrentRepo}
-            setLoading={setLoading}
-            loading={loading}
-            user={currentUser}
-          />
+          <ProtectedRoute>
+            <RepoPage
+              setCurrentRepo={setCurrentRepo}
+              setLoading={setLoading}
+              loading={loading}
+              user={currentUser}
+            />
+          </ProtectedRoute>
         }
       />
-      <Route path="*" element={<NotFound />} />
+      <Route
+        path="*"
+        element={
+          <ProtectedRoute>
+            <NotFound />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

@@ -109,7 +109,7 @@ const UserPage = ({ setCurrentUser, loading, setLoading }) => {
           <div className="header__user-stats">
             <span>{user.followers} followers</span>
             <span>{user.following} following</span>
-            <span>{user.public_repos} repos</span>
+            <span>{user.publicRepos} repos</span>
           </div>
         </div>
       </Header>

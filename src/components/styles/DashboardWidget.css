@@ -1,4 +1,6 @@
 .widget {
+  height: 100%;
+  overflow: hidden;
   background: var(--card-bg-color);
   border: var(--accent-color) solid var(--border-width-thin);
   padding: 16px;
@@ -11,11 +13,6 @@
 
 .widget::-webkit-scrollbar {
   display: none;
-}
-
-.widget:last-child {
-  grid-column: 1 / -1;
-  align-self: stretch;
 }
 
 .widget__title {
@@ -34,9 +31,20 @@
   flex-direction: column;
   align-items: center;
 }
+
 .widget_medium {
   grid-column: span 2;
 }
+
+.widget_medium_user {
+  grid-row: span 2;
+}
+
 .widget_large {
   grid-column: span 4;
+}
+
+.widget--readme,
+.widget--repos {
+  overflow-y: auto;
 }

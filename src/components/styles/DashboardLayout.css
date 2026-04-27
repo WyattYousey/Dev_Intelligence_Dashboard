@@ -1,6 +1,5 @@
 .dashboard {
-  height: fit-content;
-  gap: 16px;
+  height: 90%;
   background-color: var(--gray-1000);
   padding: var(--spacing-3);
   border-radius: var(--border-radius-xl);
@@ -8,6 +7,16 @@
 
 .dashboard__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  height: 100%;
   gap: 16px;
+}
+
+.dashboard__grid_user {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  height: 95%;
+}
+
+.dashboard__grid_default {
+  grid-template-columns: repeat(4, 1fr);
 }

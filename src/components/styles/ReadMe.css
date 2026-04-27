@@ -1,6 +1,6 @@
 .read_me__markdown {
   margin: var(--spacing-1) auto 0;
-  height: 8rem;
+  height: 100%;
   overflow-y: scroll;
   text-align: center;
   color: var(--secondary-text-color);

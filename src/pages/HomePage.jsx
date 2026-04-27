@@ -4,7 +4,6 @@ import Preloader from '../components/PreLoader';
 import SearchBar from '../components/SearchBar';
 import '../components/styles/HomePage.css';
 import Header from '../components/Header';
-import { normalizeUser } from '../utils/normalize/normalizeUser';
 
 const HomePage = ({
   loading,
@@ -30,15 +29,13 @@ const HomePage = ({
       if (!res) {
         throw new Error(404, { message: 'User not found' });
       }
-      
-      const normalizedUser = normalizeUser(res);
 
       setUserCache((prev) => ({
         ...prev,
-        [username]: normalizedUser,
+        [username]: res,
       }));
 
-      setUser(normalizedUser);
+      setUser(res);
 
       navigate(`/user/${res.login}`);
     } catch (err) {

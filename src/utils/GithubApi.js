@@ -1,3 +1,6 @@
+import { normalizeRepos } from "./normalize/normalizeRepos";
+import { normalizeUser } from "./normalize/normalizeUser";
+
 const baseUrl = 'https://api.github.com';
 
 export async function getUser(username) {
@@ -9,7 +12,8 @@ export async function getUser(username) {
     }
 
     const data = await result.json();
-    return data;
+    const normalizedData = normalizeUser(data);
+    return normalizedData;
   } catch (error) {
     console.error('Fetch operation failed:', error.message);
     return null;
@@ -43,7 +47,8 @@ export async function getRepos(username) {
     }
 
     const data = await result.json();
-    return data;
+    const normalizedData = normalizeRepos(data);
+    return normalizedData;
   } catch (error) {
     console.error('Fetch operation failed:', error.message);
     return null;

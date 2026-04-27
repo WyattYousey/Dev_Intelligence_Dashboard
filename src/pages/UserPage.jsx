@@ -9,7 +9,6 @@ import { useLocalStorage } from '../hooks/useLocalStorageHook';
 import ReadMe from '../components/ReadMe';
 import DashboardLayout from '../components/DashboardLayout';
 import DashboardWidget from '../components/DashboardWidget';
-import { normalizeRepos } from '../utils/normalize/normalizeRepos';
 
 const UserPage = ({ setLoading, user, setCurrentRepo }) => {
   const [readme, setReadMe] = useState('');
@@ -41,8 +40,7 @@ const UserPage = ({ setLoading, user, setCurrentRepo }) => {
     
     async function fetchRepos() {
       const content = await getRepos(user.login);
-      const normalizedContent = normalizeRepos(content);
-      setRepos(normalizedContent);
+      setRepos(content);
       }
     
     Promise.all([fetchReadme(), fetchRepos()]);

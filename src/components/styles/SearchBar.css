@@ -32,6 +32,10 @@
   border-color: inherit;
 }
 
+input:focus::placeholder {
+  color: var(--inverse-text-color);
+}
+
 .searchbar__submit_btn {
   position: absolute;
   top: 7px;

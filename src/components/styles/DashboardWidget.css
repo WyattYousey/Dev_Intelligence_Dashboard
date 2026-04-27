@@ -1,12 +1,10 @@
 .widget {
-  height: 100%;
   overflow: hidden;
   background: var(--card-bg-color);
   border: var(--accent-color) solid var(--border-width-thin);
   padding: 16px;
   border-radius: 12px;
   font-family: var(--font-family-base);
-  overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }

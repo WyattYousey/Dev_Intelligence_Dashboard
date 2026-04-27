@@ -131,7 +131,10 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
               <MetaGrid data={metaData} />
             </DashboardWidget>
 
-            <DashboardWidget size="large" title="README">
+            <DashboardWidget
+              size="large"
+              title="README"
+            >
               <ReadMe readme={readme} />
             </DashboardWidget>
           </DashboardLayout>

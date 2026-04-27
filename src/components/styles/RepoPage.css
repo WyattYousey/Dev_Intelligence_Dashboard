@@ -1,10 +1,10 @@
 .repo_page {
   background-color: var(--main-bg-color);
-  height: fit-content;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .repo_page__main_content {
-  width: 90%;
-  margin: var(--spacing-5) auto auto;
-  padding-bottom: var(--spacing-4);
+  height: calc(100vh - 140px);
+  padding: var(--spacing-9);
 }

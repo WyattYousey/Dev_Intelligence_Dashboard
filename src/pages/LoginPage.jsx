@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { loginUser, register, createFakeJWT } from '../utils/auth';
+import { loginUser, register, createFakeJWT, isTokenValid } from '../utils/auth';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -33,6 +33,12 @@ const LoginPage = () => {
     }
   };
 
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      if (token && isTokenValid(token)) {
+        navigate('/');
+      }
+    }, []);
   return (
     <div className="login_page">
       <h1>Dev Intelligence Dashboard</h1>

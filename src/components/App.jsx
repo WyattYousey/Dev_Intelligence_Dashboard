@@ -14,7 +14,6 @@ import { useLocalStorage } from '../hooks/useLocalStorageHook';
 function App() {
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useLocalStorage('user', null);
-  const [userCache, setUserCache] = useLocalStorage('user-cache', {});
   const [currentRepo, setCurrentRepo] = useLocalStorage('currentRepo', null);
 
   return (
@@ -22,13 +21,7 @@ function App() {
       <Route
         path="/"
         element={
-          <HomePage
-            loading={loading}
-            setLoading={setLoading}
-            setUser={setCurrentUser}
-            userCache={userCache}
-            setUserCache={setUserCache}
-          />
+          <HomePage />
         }
       />
       <Route

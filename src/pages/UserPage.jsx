@@ -100,7 +100,7 @@ const UserPage = ({ setCurrentUser, loading, setLoading }) => {
 
         <div className="header__user-info">
           <h2>
-            {user.name || user.login}{' '}
+            {user.name || user.login}
             <span className="header__user-login">@{user.login}</span>
           </h2>
 

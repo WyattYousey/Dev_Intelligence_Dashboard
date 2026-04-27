@@ -6,12 +6,12 @@ export const formatSize = (size) => {
   return `${(size / 1024).toFixed(2)} MB`;
 };
 
-function withMinDelay(promise, minDelay = 1200) {
+function withMinDelay(promise, minDelay) {
   const delay = new Promise((res) => setTimeout(res, minDelay));
   return Promise.all([promise, delay]).then(([result]) => result);
 }
 
-export async function runWithLoader(fn, setLoading, minDelay = 600) {
+export async function runWithLoader(fn, setLoading, minDelay = 400) {
   setLoading(true);
 
   try {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
+import { useParams } from 'react-router';
 
 import Header from '../components/Header';
 import DashboardLayout from '../components/DashboardLayout';
@@ -9,63 +10,107 @@ import HealthScore from '../components/HealthScore';
 import MetaGrid from '../components/MetaGrid';
 import ReadMe from '../components/ReadMe';
 import LanguageChart from '../components/LanguageChart';
+import Activity from '../components/Activity';
+import Preloader from '../components/PreLoader';
+import PrimaryLanguage from '../components/PrimaryLanguage';
 
 import '../components/styles/RepoPage.css';
 
+import { runWithLoader } from '../utils/helpers';
 import { decodeBase64 } from '../utils/decodeBase64';
 import { fixGitHubImages } from '../utils/fixReadMeImagePaths';
-import { getRepoData } from '../utils/GithubApi';
-import Activity from '../components/Activity';
-import PrimaryLanguage from '../components/PrimaryLanguage';
+import { getRepo, getRepoData } from '../utils/GithubApi';
 import { normalizeRepoDetails } from '../utils/normalize/normalizeRepoDetails';
 
-const RepoPage = ({ user, repo }) => {
+const RepoPage = ({ loading, setLoading, setCurrentRepo, user }) => {
+  const { username, repoName } = useParams();
+
+  const [repo, setRepo] = useState(null);
   const [languageData, setLanguageData] = useState(null);
   const [readme, setReadMe] = useState(null);
+
+  const [repoCache, setRepoCache] = useLocalStorage('repo-cache', {});
   const [repoReadmeCache, setRepoReadmeCache] = useLocalStorage(
     'repo-readme-cache',
     {}
   );
 
-  console.log(repo);
+  const normalizedRepo = repo ? normalizeRepoDetails(repo, languageData) : null;
 
-  const normalizedRepo = normalizeRepoDetails(repo, languageData);
+  useEffect(() => {
+    if (!username || !repoName) return;
+
+    const loadRepo = async () => {
+      const cached = repoCache?.[username]?.[repoName];
+
+      if (cached) {
+        setRepo(cached);
+        setCurrentRepo(cached);
+        return;
+      }
+
+      const repoData = await runWithLoader(
+        () => getRepo(username, repoName),
+        setLoading
+      );
+
+      setRepoCache((prev) => ({
+        ...prev,
+        [username]: {
+          ...(prev[username] || {}),
+          [repoName]: repoData,
+        },
+      }));
+
+      setRepo(repoData);
+      setCurrentRepo(repoData);
+    };
+
+    loadRepo();
+  }, [username, repoName]);
 
   useEffect(() => {
     if (!repo?.name) return;
 
-    async function fetchReadme() {
+    const fetchExtras = async () => {
       const cached = repoReadmeCache[user.login]?.[repo.name];
 
-      if (cached !== undefined) {
-        setReadMe(cached);
-      } else {
+      let finalReadme = cached;
+
+      if (cached === undefined) {
         const content = await getRepoData(user.login, repo.name, 'readme');
         const decoded = content ? decodeBase64(content.content) : null;
-        const fixedReadme = fixGitHubImages(decoded, user.login, repo.name);
 
-        setReadMe(fixedReadme);
+        finalReadme = decoded
+          ? fixGitHubImages(decoded, user.login, repo.name)
+          : null;
 
         setRepoReadmeCache((prev) => ({
           ...prev,
           [user.login]: {
             ...(prev[user.login] || {}),
-            [repo.name]: fixedReadme,
+            [repo.name]: finalReadme,
           },
         }));
       }
-    }
 
-    async function fetchRepoLanguageData() {
-      const content = await getRepoData(user.login, repo.name, 'languages');
+      setReadMe(finalReadme);
 
-      setLanguageData(content);
-    }
+      const lang = await getRepoData(user.login, repo.name, 'languages');
+      setLanguageData(lang);
+    };
 
-    Promise.all([fetchReadme(), fetchRepoLanguageData()]);
-  }, [repo?.name, user.login]);
+    fetchExtras();
+  }, [repo?.name]);
 
-  if (!repo) return <Preloader />;
+  if (loading || !repo || !normalizedRepo) {
+    return (
+      <div className="repo_page">
+        <Preloader />
+      </div>
+    );
+  }
+
   return (
     <div className="repo_page">
       <Header>
@@ -76,8 +121,8 @@ const RepoPage = ({ user, repo }) => {
         />
         <div className="header__user-info">
           <h1>
-            {normalizedRepo.name || normalizedRepo.login} [
-            <span className="header__user-login">@{user.login}</span>]
+            {normalizedRepo.name}{' '}
+            <span className="header__user-login">@{user.login}</span>
           </h1>
           <p>{normalizedRepo.description}</p>
         </div>
@@ -92,7 +137,7 @@ const RepoPage = ({ user, repo }) => {
           <DashboardWidget size="small" title="Key Stats">
             <StatCard label="Stars:" value={normalizedRepo.stargazersCount} />
             <StatCard label="Forks:" value={normalizedRepo.forks} />
-            <StatCard label="Open Issues:" value={normalizedRepo.openIssues} />
+            <StatCard label="Issues:" value={normalizedRepo.openIssues} />
           </DashboardWidget>
 
           <DashboardWidget size="small" title="Activity">
@@ -102,7 +147,9 @@ const RepoPage = ({ user, repo }) => {
           <DashboardWidget size="small" title="Primary Language">
             <PrimaryLanguage
               primaryLanguage={normalizedRepo.primaryLanguage}
-              primaryLanguagePercentage={normalizedRepo.primaryLanguagePercentage}
+              primaryLanguagePercentage={
+                normalizedRepo.primaryLanguagePercentage
+              }
             />
           </DashboardWidget>
 

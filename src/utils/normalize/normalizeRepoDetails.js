@@ -50,7 +50,7 @@ export function normalizeRepoDetails(repo, languageData) {
   ];
 
   return {
-    // original fields you still need
+    // original fields
     name: repo.name,
     description: repo.description || 'No description provided',
     forks: repo.forks ?? 0,

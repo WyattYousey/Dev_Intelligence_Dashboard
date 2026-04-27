@@ -1,103 +1,137 @@
 import { useEffect, useState } from 'react';
-import { decodeBase64 } from '../utils/decodeBase64';
+import { useParams } from 'react-router';
+
 import '../components/styles/UserPage.css';
+
 import Header from '../components/Header';
 import RepoItem from '../components/RepoItem';
-import { getRepos, getUserReadMe } from '../utils/GithubApi';
 import Preloader from '../components/PreLoader';
-import { useLocalStorage } from '../hooks/useLocalStorageHook';
 import ReadMe from '../components/ReadMe';
 import DashboardLayout from '../components/DashboardLayout';
 import DashboardWidget from '../components/DashboardWidget';
 
-const UserPage = ({ setLoading, user, setCurrentRepo }) => {
-  const [readme, setReadMe] = useState('');
-  const [readmeCache, setReadmeCache] = useLocalStorage('readme-cache', {});
+import { getRepos, getUser, getUserReadMe } from '../utils/GithubApi';
+import { useLocalStorage } from '../hooks/useLocalStorageHook';
+import { runWithLoader } from '../utils/helpers';
+import { decodeBase64 } from '../utils/decodeBase64';
+
+const UserPage = ({ setCurrentUser, loading, setLoading }) => {
+  const { username } = useParams();
+
+  const [user, setUser] = useState(null);
   const [repos, setRepos] = useState([]);
-  const [repoCache, setRepoCache] = useLocalStorage('repo-cache', {});
+  const [readme, setReadMe] = useState('');
   const [visibleCount, setVisibleCount] = useState(3);
 
-  
+  const [userCache, setUserCache] = useLocalStorage('user-cache', {});
+  const [readmeCache, setReadmeCache] = useLocalStorage('readme-cache', {});
+
   useEffect(() => {
-    if (!user?.login) return;
-    
-    async function fetchReadme() {
-      if (readmeCache[user.login] !== undefined) {
-        setReadMe(readmeCache[user.login]);
+    if (!username) return;
+
+    async function loadUserPage() {
+      let userData = userCache[username];
+
+      if (!userData) {
+        userData = await runWithLoader(() => getUser(username), setLoading);
+
+        if (!userData) return;
+
+        setUserCache((prev) => ({
+          ...prev,
+          [username]: userData,
+        }));
+      }
+
+      setUser(userData);
+      setCurrentUser?.(userData);
+
+      const repoData = await runWithLoader(
+        () => getRepos(username),
+        setLoading
+      );
+
+      if (repoData) {
+        setRepos(repoData);
+      }
+
+      const cachedReadme = readmeCache[username];
+
+      if (cachedReadme !== undefined) {
+        setReadMe(cachedReadme);
       } else {
-        const content = await getUserReadMe(user.login);
-        
+        const content = await runWithLoader(
+          () => getUserReadMe(username),
+          setLoading
+        );
+
         const decoded = content ? decodeBase64(content) : null;
 
         setReadMe(decoded);
-        
+
         setReadmeCache((prev) => ({
           ...prev,
-          [user.login]: decoded,
+          [username]: decoded,
         }));
       }
     }
-    
-    async function fetchRepos() {
-      const content = await getRepos(user.login);
-      setRepos(content);
-      }
-    
-    Promise.all([fetchReadme(), fetchRepos()]);
-  }, [user]);
 
-  const slicedRepos = repos?.slice(0, visibleCount);
-  
-  if (!user) return <Preloader />;
+    loadUserPage();
+  }, [username]);
+
+  const slicedRepos = repos.slice(0, visibleCount);
+
+  if (loading || !user) {
+    return (
+      <div className="repo_page">
+        <Preloader />
+      </div>
+    );
+  }
+
   return (
     <div className="user_page">
       <Header>
         <img
           className="header__user-avatar"
-          src={user.avatarUrl}
+          src={user.avatar_url || user.avatarUrl}
           alt={user.login}
         />
+
         <div className="header__user-info">
           <h2>
-            {user.name || user.login} [
-            <span className="header__user-login">@{user.login}</span>]
+            {user.name || user.login}{' '}
+            <span className="header__user-login">@{user.login}</span>
           </h2>
+
           <p>{user.bio}</p>
+
           <div className="header__user-stats">
             <span>{user.followers} followers</span>
             <span>{user.following} following</span>
-            <span>{user.publicRepos} repos</span>
+            <span>{user.public_repos} repos</span>
           </div>
         </div>
       </Header>
 
       <div className="user_page__content">
         <DashboardLayout type="user">
-          {/* LEFT PANEL */}
           <DashboardWidget
             size="medium"
-            className="widget--readme"
             title="README"
+            className="widget--reame"
           >
             {readme && <ReadMe readme={readme} />}
           </DashboardWidget>
 
           <DashboardWidget
             size="medium"
-            className="widget--repos"
             title="Repositories"
+            className="widget--repos"
           >
             <div className="user_page__repos">
               {slicedRepos.map((repo) => (
-                <RepoItem
-                  key={repo.id}
-                  repo={repo}
-                  user={user}
-                  repoCache={repoCache}
-                  setRepoCache={setRepoCache}
-                  setCurrentRepo={setCurrentRepo}
-                  setLoading={setLoading}
-                />
+                <RepoItem key={repo.id} repo={repo} user={user} />
               ))}
 
               {visibleCount < repos.length && (

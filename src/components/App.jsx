@@ -13,10 +13,10 @@ import { useLocalStorage } from '../hooks/useLocalStorageHook';
 
 function App() {
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useLocalStorage('user', null);
+  const [currentUser, setCurrentUser] = useLocalStorage('user', null);
   const [userCache, setUserCache] = useLocalStorage('user-cache', {});
-  const [currentRepo, setCurrentRepo] = useLocalStorage('currentRepo',null);
-  
+  const [currentRepo, setCurrentRepo] = useLocalStorage('currentRepo', null);
+
   return (
     <Routes>
       <Route
@@ -25,7 +25,7 @@ function App() {
           <HomePage
             loading={loading}
             setLoading={setLoading}
-            setUser={setUser}
+            setUser={setCurrentUser}
             userCache={userCache}
             setUserCache={setUserCache}
           />
@@ -35,18 +35,20 @@ function App() {
         path="/user/:username"
         element={
           <UserPage
+            setCurrentUser={setCurrentUser}
+            loading={loading}
             setLoading={setLoading}
-            user={user}
-            setCurrentRepo={setCurrentRepo}
           />
         }
       />
       <Route
-        path="/repos/:user/:repo"
+        path="/repos/:username/:repoName"
         element={
           <RepoPage
-            user={user}
-            repo={currentRepo}
+            setCurrentRepo={setCurrentRepo}
+            setLoading={setLoading}
+            loading={loading}
+            user={currentUser}
           />
         }
       />

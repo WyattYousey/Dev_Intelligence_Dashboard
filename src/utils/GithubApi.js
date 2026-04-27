@@ -26,6 +26,11 @@ export async function getUserReadMe(username) {
       `${baseUrl}/repos/${username}/${username}/readme`
     );
 
+    if (result.status === 404) {
+      console.log(`[INFO] No ReadMe found for ${username}`);
+      return null;
+    }
+
     if (!result.ok) {
       throw new Error(`HTTP error! status: ${result.status}`);
     }
@@ -77,9 +82,14 @@ export async function getRepoData(username, repo, endpoint) {
       `${baseUrl}/repos/${username}/${repo}/${endpoint}`
     );
 
-    if (!result.ok) {
-      throw new Error(`HTTP error! status: ${result.status}`);
-    }
+     if (result.status === 404) {
+       console.log(`[INFO] No ${endpoint} found for ${repo}`);
+       return null;
+     }
+
+     if (!result.ok) {
+       throw new Error(`HTTP error! status: ${result.status}`);
+     }
 
     const data = await result.json();
     return data;

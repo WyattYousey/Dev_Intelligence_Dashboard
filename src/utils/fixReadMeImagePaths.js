@@ -1,4 +1,8 @@
 export const fixGitHubImages = (markdown, user, repo) => {
+  if (!markdown || typeof markdown !== 'string') {
+    return null;
+  }
+
   const base = `https://raw.githubusercontent.com/${user}/${repo}/main`;
 
   return markdown.replace(

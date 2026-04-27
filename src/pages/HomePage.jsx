@@ -4,7 +4,7 @@ import Preloader from '../components/PreLoader';
 import SearchBar from '../components/SearchBar';
 import '../components/styles/HomePage.css';
 import Header from '../components/Header';
-import avatarUrlPlaceholder from '../assets/avatar_url_placeholder.svg';
+import { normalizeUser } from '../utils/normalize/normalizeUser';
 
 const HomePage = ({
   loading,
@@ -31,28 +31,14 @@ const HomePage = ({
         throw new Error(404, { message: 'User not found' });
       }
       
+      const normalizedUser = normalizeUser(res);
+
       setUserCache((prev) => ({
         ...prev,
-        [username]: {
-          avatarUrl: res?.avatar_url || avatarUrlPlaceholder,
-          login: res.login,
-          name: res?.name || 'No name provided',
-          bio: res?.bio || 'No bio on profile',
-          followers: res.followers,
-          following: res.following,
-          publicRepos: res.public_repos,
-        },
+        [username]: normalizedUser,
       }));
 
-      setUser({
-        avatarUrl: res?.avatar_url || avatarUrlPlaceholder,
-        login: res.login,
-        name: res?.name || 'No name provided',
-        bio: res?.bio || 'No bio on profile',
-        followers: res.followers,
-        following: res.following,
-        publicRepos: res.public_repos,
-      });
+      setUser(normalizedUser);
 
       navigate(`/user/${res.login}`);
     } catch (err) {

@@ -9,6 +9,7 @@ import { useLocalStorage } from '../hooks/useLocalStorageHook';
 import ReadMe from '../components/ReadMe';
 import DashboardLayout from '../components/DashboardLayout';
 import DashboardWidget from '../components/DashboardWidget';
+import { normalizeRepos } from '../utils/normalize/normalizeRepos';
 
 const UserPage = ({ setLoading, user, setCurrentRepo }) => {
   const [readme, setReadMe] = useState('');
@@ -40,24 +41,9 @@ const UserPage = ({ setLoading, user, setCurrentRepo }) => {
     
     async function fetchRepos() {
       const content = await getRepos(user.login);
-      const normalizedContent = [];
-      
-      if (content) {
-        content.forEach((repo) => {
-          const normalizedRepo = {
-            id: repo.id,
-            name: repo.name,
-            description: repo?.description || 'No description provided',
-            language: repo?.language || 'No primary language',
-            forks: repo.forks,
-            stargazersCount: repo.stargazers_count,
-          };
-
-          normalizedContent.push(normalizedRepo);
-        });
-        setRepos(normalizedContent);
+      const normalizedContent = normalizeRepos(content);
+      setRepos(normalizedContent);
       }
-    }
     
     Promise.all([fetchReadme(), fetchRepos()]);
   }, [user]);

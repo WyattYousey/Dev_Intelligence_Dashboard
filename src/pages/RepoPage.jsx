@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
 
 import Header from '../components/Header';
@@ -18,8 +18,9 @@ import { getRepoData } from '../utils/GithubApi';
 import Activity from '../components/Activity';
 import PrimaryLanguage from '../components/PrimaryLanguage';
 import { formatDate, formatSize } from '../utils/helpers';
+import { normalizeRepoDetails } from '../utils/normalize/normalizeRepoDetails';
 
-const RepoPage = ({ loading, setLoading, user, repo }) => {
+const RepoPage = ({ user, repo }) => {
   const [languageData, setLanguageData] = useState(null);
   const [readme, setReadMe] = useState(null);
   const [repoReadmeCache, setRepoReadmeCache] = useLocalStorage(
@@ -29,26 +30,7 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
 
   console.log(repo);
 
-  const starsScore = Math.min(repo.stargazers_count / 1000, 1) * 40;
-  const daysSinceUpdate =
-    (Date.now() - new Date(repo.pushed_at)) / (1000 * 60 * 60 * 24);
-  const activityScore =
-    daysSinceUpdate < 30 ? 30 : daysSinceUpdate < 90 ? 20 : 10;
-  const issueRatio = repo.open_issues_count / (repo.stargazers_count + 1);
-  const issueScore = issueRatio < 0.1 ? 20 : issueRatio < 0.3 ? 10 : 5;
-  const completenessScore = (repo.description ? 5 : 0) + (repo.license ? 5 : 0);
-  const totalScore = Math.round(
-    starsScore + activityScore + issueScore + completenessScore
-  );
-
-  const metaData = [
-    { label: 'Created', value: formatDate(repo.created_at) },
-    { label: 'Last Updated', value: formatDate(repo.pushed_at) },
-    { label: 'Default Branch', value: repo.default_branch },
-    { label: 'License', value: repo.license?.name || 'None' },
-    { label: 'Visibility', value: repo.visibility },
-    { label: 'Repo Size', value: formatSize(repo.size) },
-  ];
+  const normalizedRepo = normalizeRepoDetails(repo, languageData);
 
   useEffect(() => {
     if (!repo?.name) return;
@@ -83,6 +65,8 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
 
     Promise.all([fetchReadme(), fetchRepoLanguageData()]);
   }, [repo?.name, user.login]);
+
+  if (!repo) return <Preloader />;
   return (
     <div className="repo_page">
       <Header>
@@ -93,53 +77,49 @@ const RepoPage = ({ loading, setLoading, user, repo }) => {
         />
         <div className="header__user-info">
           <h1>
-            {repo.name || repo.login} [
+            {normalizedRepo.name || normalizedRepo.login} [
             <span className="header__user-login">@{user.login}</span>]
           </h1>
-          <p>{repo.description}</p>
+          <p>{normalizedRepo.description}</p>
         </div>
       </Header>
 
-      {loading ? (
-        <Preloader />
-      ) : (
-        <div className="repo_page__main_content">
-          <DashboardLayout>
-            <DashboardWidget size="small" title="Health Score">
-              <HealthScore score={totalScore} />
-            </DashboardWidget>
+      <div className="repo_page__main_content">
+        <DashboardLayout>
+          <DashboardWidget size="small" title="Health Score">
+            <HealthScore score={normalizedRepo.healthScore} />
+          </DashboardWidget>
 
-            <DashboardWidget size="small" title="Key Stats">
-              <StatCard label="Stars:" value={repo.stargazers_count} />
-              <StatCard label="Forks:" value={repo.forks} />
-              <StatCard label="Open Issues:" value={repo.open_issues} />
-            </DashboardWidget>
+          <DashboardWidget size="small" title="Key Stats">
+            <StatCard label="Stars:" value={normalizedRepo.stargazersCount} />
+            <StatCard label="Forks:" value={normalizedRepo.forks} />
+            <StatCard label="Open Issues:" value={normalizedRepo.openIssues} />
+          </DashboardWidget>
 
-            <DashboardWidget size="small" title="Activity">
-              <Activity daysSinceUpdate={daysSinceUpdate} />
-            </DashboardWidget>
+          <DashboardWidget size="small" title="Activity">
+            <Activity daysSinceUpdate={normalizedRepo.daysSinceUpdate} />
+          </DashboardWidget>
 
-            <DashboardWidget size="small" title="Primary Language">
-              <PrimaryLanguage repo={repo} languageData={languageData} />
-            </DashboardWidget>
+          <DashboardWidget size="small" title="Primary Language">
+            <PrimaryLanguage
+              primaryLanguage={normalizedRepo.primaryLanguage}
+              primaryLanguagePercentage={normalizedRepo.primaryLanguagePercentage}
+            />
+          </DashboardWidget>
 
-            <DashboardWidget size="medium" title="Languages">
-              <LanguageChart languageData={languageData} />
-            </DashboardWidget>
+          <DashboardWidget size="medium" title="Languages">
+            <LanguageChart languageData={normalizedRepo.languageData} />
+          </DashboardWidget>
 
-            <DashboardWidget size="medium" title="Metadata">
-              <MetaGrid data={metaData} />
-            </DashboardWidget>
+          <DashboardWidget size="medium" title="Metadata">
+            <MetaGrid data={normalizedRepo.metaData} />
+          </DashboardWidget>
 
-            <DashboardWidget
-              size="large"
-              title="README"
-            >
-              <ReadMe readme={readme} />
-            </DashboardWidget>
-          </DashboardLayout>
-        </div>
-      )}
+          <DashboardWidget size="large" title="README">
+            <ReadMe readme={readme} />
+          </DashboardWidget>
+        </DashboardLayout>
+      </div>
     </div>
   );
 };

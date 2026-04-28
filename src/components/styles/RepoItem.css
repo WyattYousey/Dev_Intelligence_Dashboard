@@ -65,3 +65,9 @@
     display: none;
   }
 }
+
+@media (max-width: 361px) {
+  .repo_item {
+    width: 150px;
+  }
+}

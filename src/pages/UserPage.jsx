@@ -15,7 +15,7 @@ import { useLocalStorage } from '../hooks/useLocalStorageHook';
 import { runWithLoader } from '../utils/helpers';
 import { decodeBase64 } from '../utils/decodeBase64';
 
-const UserPage = ({ setCurrentUser, loading, setLoading }) => {
+const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
   const { username } = useParams();
 
   const [user, setUser] = useState(null);
@@ -91,63 +91,125 @@ const UserPage = ({ setCurrentUser, loading, setLoading }) => {
 
   return (
     <div className="user_page">
-      <Header>
-        <img
-          className="header__user-avatar"
-          src={user.avatar_url || user.avatarUrl}
-          alt={user.login}
-        />
+      <Header screenWidth={screenWidth}>
+        {screenWidth < 960 ? (
+          <></>
+        ) : (
+          <>
+            <img
+              className="header__user-avatar"
+              src={user.avatar_url || user.avatarUrl}
+              alt={user.login}
+            />
 
-        <div className="header__user-info">
-          <h2>
-            {user.name || user.login}
-            <span className="header__user-login">@{user.login}</span>
-          </h2>
+            <div className="header__user-info">
+              <h2>
+                {user.name || user.login}
+                <span className="header__user-login">@{user.login}</span>
+              </h2>
 
-          <p>{user.bio}</p>
+              <p>{user.bio}</p>
 
-          <div className="header__user-stats">
-            <span>{user.followers} followers</span>
-            <span>{user.following} following</span>
-            <span>{user.publicRepos} repos</span>
-          </div>
-        </div>
+              <div className="header__user-stats">
+                <span>{user.followers} followers</span>
+                <span>{user.following} following</span>
+                <span>{user.publicRepos} repos</span>
+              </div>
+            </div>
+          </>
+        )}
       </Header>
 
       <div className="user_page__content">
-        <DashboardLayout type="user">
-          <DashboardWidget
-            size="medium"
-            title="README"
-            className="widget--readme"
-          >
-            {readme ? (
-              <ReadMe readme={readme} />
-            ) : (
-              <p>No Profile ReadMe Provided</p>
-            )}
-          </DashboardWidget>
+        {screenWidth > 960 ? (
+          <></>
+        ) : (
+          <div className="user_page__user_content">
+            <img
+              className="header__user-avatar"
+              src={user.avatar_url || user.avatarUrl}
+              alt={user.login}
+            />
 
-          <DashboardWidget
-            size="medium"
-            title="Repositories"
-            className="widget--repos"
-          >
-            <div className="user_page__repos">
-              {slicedRepos.map((repo) => (
-                <RepoItem key={repo.id} repo={repo} user={user} />
-              ))}
+            <div className="header__user-info">
+              <h2>
+                {user.name || user.login}
+                <span className="header__user-login">@{user.login}</span>
+              </h2>
 
-              {visibleCount < repos.length && (
-                <button
-                  onClick={() => setVisibleCount((p) => p + 3)}
-                  className="user_page__show_more"
-                >
-                  Show More
-                </button>
-              )}
+              <p>{user.bio}</p>
+
+              <div className="header__user-stats">
+                <span>{user.followers} followers</span>
+                <span>{user.following} following</span>
+                <span>{user.publicRepos} repos</span>
+              </div>
             </div>
-          </DashboardWidget>
+          </div>
+        )}
+        <DashboardLayout type="user">
+          {screenWidth < 960 ? (
+            <></>
+          ) : (
+            <DashboardWidget
+              type="user"
+              size="medium"
+              title="README"
+              className="widget--readme"
+            >
+              {readme ? (
+                <ReadMe readme={readme} />
+              ) : (
+                <p>No Profile ReadMe Provided</p>
+              )}
+            </DashboardWidget>
+          )}
+
+          {screenWidth < 960 ? (
+            <DashboardWidget
+              type="mobile"
+              size="large"
+              title="Repositories"
+              className="widget--repos"
+            >
+              <div className="user_page__repos">
+                {slicedRepos.map((repo) => (
+                  <RepoItem key={repo.id} repo={repo} user={user} />
+                ))}
+
+                {visibleCount < repos.length && (
+                  <button
+                    onClick={() => setVisibleCount((p) => p + 3)}
+                    className="user_page__show_more"
+                  >
+                    Show More
+                  </button>
+                )}
+              </div>
+            </DashboardWidget>
+          ) : (
+            <DashboardWidget
+              type="user"
+              size="medium"
+              title="Repositories"
+              className="widget--repos"
+            >
+              <div className="user_page__repos">
+                {slicedRepos.map((repo) => (
+                  <RepoItem key={repo.id} repo={repo} user={user} />
+                ))}
+
+                {visibleCount < repos.length && (
+                  <button
+                    onClick={() => setVisibleCount((p) => p + 3)}
+                    className="user_page__show_more"
+                  >
+                    Show More
+                  </button>
+                )}
+              </div>
+            </DashboardWidget>
+          )}
         </DashboardLayout>
       </div>
     </div>

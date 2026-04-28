@@ -23,14 +23,14 @@
   color: var(--muted-text-color);
 }
 
-.widget_small {
+.widget_small_default {
   grid-column: span 1;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.widget_medium {
+.widget_medium_repo {
   grid-column: span 2;
 }
 
@@ -38,7 +38,7 @@
   grid-row: span 2;
 }
 
-.widget_large {
+.widget_large_mobile {
   grid-column: span 4;
 }
 

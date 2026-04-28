@@ -58,7 +58,7 @@
   color: var(--main-text-color);
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1024px) {
   .user_page {
     overflow: scroll;
     padding-bottom: var(--spacing-9);

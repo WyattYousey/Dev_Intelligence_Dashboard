@@ -92,7 +92,7 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
   return (
     <div className="user_page">
       <Header screenWidth={screenWidth}>
-        {screenWidth < 960 ? (
+        {screenWidth < 1024 ? (
           <></>
         ) : (
           <>
@@ -121,7 +121,7 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
       </Header>
 
       <div className="user_page__content">
-        {screenWidth > 960 ? (
+        {screenWidth > 1024 ? (
           <></>
         ) : (
           <div className="user_page__user_content">
@@ -147,10 +147,20 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
             </div>
           </div>
         )}
-        <DashboardLayout type="user">
-          {screenWidth < 960 ? (
-            <></>
-          ) : (
+        <DashboardLayout
+          type="user"
+          mobileWithReadme={screenWidth <= 1024 && readme}
+        >
+          {screenWidth <= 1024 && readme ? (
+            <DashboardWidget
+              type="user"
+              size="medium"
+              title="README"
+              className="widget--readme"
+            >
+              <ReadMe readme={readme} />
+            </DashboardWidget>
+          ) : screenWidth > 1024 ? (
             <DashboardWidget
               type="user"
               size="medium"
@@ -163,9 +173,9 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
                 <p>No Profile ReadMe Provided</p>
               )}
             </DashboardWidget>
-          )}
+          ) : null}
 
-          {screenWidth < 960 ? (
+          {screenWidth < 1024 ? (
             <DashboardWidget
               type="mobile"
               size="large"

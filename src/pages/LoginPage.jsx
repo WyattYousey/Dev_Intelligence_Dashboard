@@ -60,7 +60,6 @@ const LoginPage = ({ screenWidth }) => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-
           <input
             className="login_page__input"
             type="password"
@@ -71,13 +70,23 @@ const LoginPage = ({ screenWidth }) => {
         </form>
 
         <div className="login_page__buttons">
-          <button className="login_page__button" onClick={handleLogin}>
+          <button
+            type="button"
+            className="login_page__button"
+            onClick={handleLogin}
+          >
             Login
           </button>
-          <button className="login_page__button" onClick={handleRegister}>
+          <button
+            type="button"
+            className="login_page__button"
+            onClick={handleRegister}
+          >
             Create Account
           </button>
         </div>
+
+        {/* TODO: make this a form submit handler or explicitly prevent default to avoid accidental submits */}
 
         {error && <p className="login_page__error">{error}</p>}
       </div>

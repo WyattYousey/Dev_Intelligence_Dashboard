@@ -21,7 +21,7 @@
   color: var(--main-text-color);
 }
 
-@media (max-width: 500px) {
+@media (max-width: 640px) {
   .meta_grid {
     grid-template-columns: 1fr;
   }

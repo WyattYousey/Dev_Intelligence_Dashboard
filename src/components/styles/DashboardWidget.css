@@ -51,7 +51,7 @@
   overflow-y: auto;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1024px) {
   .widget_small_repo {
     grid-column: span 2;
   }
@@ -60,7 +60,7 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 640px) {
   .widget_small_repo {
     grid-column: span 4;
   }

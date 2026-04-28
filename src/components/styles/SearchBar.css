@@ -77,13 +77,13 @@
   font-weight: var(--font-weight-bold);
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1025px) {
   .searchbar:focus + .searchbar__submit_btn {
     right: -35px;
   }
 }
 
-@media (max-width: 915px) {
+@media (max-width: 1024px) {
   .searchbar__wrapper {
     width: 60%;
   }
@@ -92,7 +92,7 @@
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 640px) {
   .searchbar__wrapper {
     width: 80%;
   }

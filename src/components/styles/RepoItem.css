@@ -51,7 +51,7 @@
   color: var(--secondary-text-color);
 }
 
-@media (max-width: 915px) {
+@media (max-width: 1024px) {
   .repo_item {
     width: 200px;
     height: 125px;
@@ -66,7 +66,7 @@
   }
 }
 
-@media (max-width: 361px) {
+@media (max-width: 640px) {
   .repo_item {
     width: 150px;
   }

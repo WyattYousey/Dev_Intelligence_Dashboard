@@ -16,19 +16,18 @@ import ProtectedRoute from './ProtectedRoute';
 function App() {
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useLocalStorage('user', null);
-  const [currentRepo, setCurrentRepo] = useLocalStorage('currentRepo', null);
+  const [, setCurrentRepo] = useLocalStorage('currentRepo', null); // TODO: currentRepo is stored but currently unused
   const [screenWidth, setScreenWidth] = useState(0);
 
-  window.addEventListener('resize', () => {
-    const width = window.innerWidth;
-
-    setScreenWidth(width);
-  });
-
   useEffect(() => {
-    const width = window.innerWidth;
+    const handleResize = () => setScreenWidth(window.innerWidth);
 
-    setScreenWidth(width);
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
   return (
     <Routes>

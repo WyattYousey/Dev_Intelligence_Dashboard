@@ -22,7 +22,13 @@ import { fixGitHubImages } from '../utils/fixReadMeImagePaths';
 import { getRepo, getRepoData } from '../utils/GithubApi';
 import { normalizeRepoDetails } from '../utils/normalize/normalizeRepoDetails';
 
-const RepoPage = ({ loading, setLoading, setCurrentRepo, user }) => {
+const RepoPage = ({
+  screenWidth,
+  loading,
+  setLoading,
+  setCurrentRepo,
+  user,
+}) => {
   const { username, repoName } = useParams();
 
   const [repo, setRepo] = useState(null);
@@ -113,38 +119,63 @@ const RepoPage = ({ loading, setLoading, setCurrentRepo, user }) => {
 
   return (
     <div className="repo_page">
-      <Header>
-        <img
-          className="header__user-avatar"
-          src={user.avatarUrl}
-          alt={user.login}
-        />
-        <div className="header__user-info">
-          <h1>
-            {normalizedRepo.name}{' '}
-            <span className="header__user-login">@{user.login}</span>
-          </h1>
-          <p>{normalizedRepo.description}</p>
-        </div>
+      <Header screenWidth={screenWidth}>
+        {screenWidth < 1324 ? (
+          <></>
+        ) : (
+          <>
+            <img
+              className="header__user-avatar"
+              src={user.avatarUrl}
+              alt={user.login}
+            />
+            <div className="header__user-info">
+              <h1>
+                {normalizedRepo.name}
+                <span className="header__user-login">@{user.login}</span>
+              </h1>
+              <p>{normalizedRepo.description}</p>
+            </div>
+          </>
+        )}
       </Header>
 
       <div className="repo_page__main_content">
+        {screenWidth > 1324 ? (
+          <></>
+        ) : (
+          <div className="repo_page__repo_content">
+            <img
+              className="header__user-avatar"
+              src={user.avatarUrl}
+              alt={user.login}
+            />
+            <div className="header__user-info">
+              <h1>
+                {normalizedRepo.name}{' '}
+                <span className="header__user-login">@{user.login}</span>
+              </h1>
+              <p>{normalizedRepo.description}</p>
+            </div>
+          </div>
+        )}
+
         <DashboardLayout>
-          <DashboardWidget size="small" title="Health Score">
+          <DashboardWidget type="repo" size="small" title="Health Score">
             <HealthScore score={normalizedRepo.healthScore} />
           </DashboardWidget>
 
-          <DashboardWidget size="small" title="Key Stats">
+          <DashboardWidget type="repo" size="small" title="Key Stats">
             <StatCard label="Stars:" value={normalizedRepo.stargazersCount} />
             <StatCard label="Forks:" value={normalizedRepo.forks} />
             <StatCard label="Issues:" value={normalizedRepo.openIssues} />
           </DashboardWidget>
 
-          <DashboardWidget size="small" title="Activity">
+          <DashboardWidget type="repo" size="small" title="Activity">
             <Activity daysSinceUpdate={normalizedRepo.daysSinceUpdate} />
           </DashboardWidget>
 
-          <DashboardWidget size="small" title="Primary Language">
+          <DashboardWidget type="repo" size="small" title="Primary Language">
             <PrimaryLanguage
               primaryLanguage={normalizedRepo.primaryLanguage}
               primaryLanguagePercentage={
@@ -153,15 +184,19 @@ const RepoPage = ({ loading, setLoading, setCurrentRepo, user }) => {
             />
           </DashboardWidget>
 
-          <DashboardWidget size="medium" title="Languages">
-            <LanguageChart languageData={normalizedRepo.languageData} />
-          </DashboardWidget>
+          {screenWidth < 500 ? (
+            <></>
+          ) : (
+            <DashboardWidget type="repo" size="medium" title="Languages">
+              <LanguageChart languageData={normalizedRepo.languageData} />
+            </DashboardWidget>
+          )}
 
-          <DashboardWidget size="medium" title="Metadata">
+          <DashboardWidget type="repo" size="medium" title="Metadata">
             <MetaGrid data={normalizedRepo.metaData} />
           </DashboardWidget>
 
-          <DashboardWidget size="large" title="README">
+          <DashboardWidget type="repo" size="large" title="README">
             <ReadMe readme={readme} />
           </DashboardWidget>
         </DashboardLayout>

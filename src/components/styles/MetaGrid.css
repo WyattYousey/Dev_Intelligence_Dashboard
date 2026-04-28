@@ -17,6 +17,12 @@
 }
 
 .meta_grid__item_label {
-    font-size: var(--font-size-lg);
-    color: var(--main-text-color);
+  font-size: var(--font-size-lg);
+  color: var(--main-text-color);
+}
+
+@media (max-width: 500px) {
+  .meta_grid {
+    grid-template-columns: 1fr;
+  }
 }

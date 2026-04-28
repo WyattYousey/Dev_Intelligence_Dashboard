@@ -1,10 +1,10 @@
 import Header from '../components/Header';
 import '../components/styles/NotFound.css';
 
-const NotFound = () => {
+const NotFound = ({ screenWidth }) => {
   return (
     <div className="not_found">
-      <Header />
+      <Header screenWidth={screenWidth} />
 
       <div style={{ textAlign: 'center', padding: '50px' }}>
         <h3 className="not_found__title">404 - Page or User Not Found</h3>

@@ -1,8 +1,8 @@
 .dashboard {
   height: 90%;
-  background-color: var(--gray-1000);
-  padding: var(--spacing-3);
   border-radius: var(--border-radius-xl);
+  background-color: var(--gray-1000); 
+  padding: var(--spacing-3);
 }
 
 .dashboard__grid {
@@ -30,4 +30,10 @@
 .dashboard__grid_default .widget {
   height: auto;
   overflow-y: auto;
+}
+
+@media (max-width: 960px) {
+  .dashboard {
+    height: fit-content;
+  }
 }

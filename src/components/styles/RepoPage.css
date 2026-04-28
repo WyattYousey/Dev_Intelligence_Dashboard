@@ -8,3 +8,31 @@
   height: calc(100vh - 140px);
   padding: var(--spacing-9);
 }
+
+.repo_page__repo_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--spacing-2);
+  padding: var(--spacing-3);
+  font-family: var(--font-family-base);
+  gap: var(--spacing-1);
+  background-color: var(--card-bg-color);
+  border: var(--border-width-thin) solid var(--accent-color);
+  border-radius: var(--border-radius-lg);
+  color: var(--main-text-color);
+}
+
+@media (max-width: 1024px) {
+  .repo_page {
+    overflow: scroll;
+    padding-bottom: var(--spacing-9);
+  }
+}
+
+@media (max-width: 500px) {
+  .repo_page__repo_content {
+    font-size: var(--font-size-sm);
+  }
+}

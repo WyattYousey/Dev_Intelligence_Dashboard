@@ -8,7 +8,7 @@ import RepoPage from '../pages/RepoPage';
 import UserPage from '../pages/UserPage';
 import NotFound from '../pages/NotFound';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
 import LoginPage from '../pages/LoginPage';
 import ProtectedRoute from './ProtectedRoute';
@@ -19,12 +19,17 @@ function App() {
   const [currentRepo, setCurrentRepo] = useLocalStorage('currentRepo', null);
   const [screenWidth, setScreenWidth] = useState(0);
 
-  window.addEventListener('resize', function () {
+  window.addEventListener('resize', () => {
     const width = window.innerWidth;
 
     setScreenWidth(width);
   });
 
+  useEffect(() => {
+    const width = window.innerWidth;
+
+    setScreenWidth(width);
+  }, []);
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
@@ -68,7 +73,7 @@ function App() {
         path="*"
         element={
           <ProtectedRoute>
-            <NotFound />
+            <NotFound screenWidth={screenWidth} />
           </ProtectedRoute>
         }
       />

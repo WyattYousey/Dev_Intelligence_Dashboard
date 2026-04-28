@@ -9,8 +9,9 @@ import {
 } from '../utils/auth';
 
 import '../components/styles/LoginPage.css';
+import Header from '../components/Header';
 
-const LoginPage = () => {
+const LoginPage = ({ screenWidth }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -48,35 +49,38 @@ const LoginPage = () => {
   }, []);
   return (
     <div className="login_page">
-      <h1 className="login_page__title">Dev Intelligence Dashboard</h1>
+      <Header screenWidth={screenWidth} />
 
-      <form className="login_page__form">
-        <input
-          className="login_page__input"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+      <div className="login_page__content">
+        <form className="login_page__form">
+          Register or Login
+          <input
+            className="login_page__input"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
 
-        <input
-          className="login_page__input"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </form>
+          <input
+            className="login_page__input"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </form>
 
-      <div className="login_page__buttons">
-        <button className="login_page__button" onClick={handleLogin}>
-          Login
-        </button>
-        <button className="login_page__button" onClick={handleRegister}>
-          Create Account
-        </button>
+        <div className="login_page__buttons">
+          <button className="login_page__button" onClick={handleLogin}>
+            Login
+          </button>
+          <button className="login_page__button" onClick={handleRegister}>
+            Create Account
+          </button>
+        </div>
+
+        {error && <p className="login_page__error">{error}</p>}
       </div>
-
-      {error && <p className="login_page__error">{error}</p>}
     </div>
   );
 };

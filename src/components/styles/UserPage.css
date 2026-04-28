@@ -55,6 +55,7 @@
   background-color: var(--card-bg-color);
   border: var(--border-width-thin) solid var(--accent-color);
   border-radius: var(--border-radius-lg);
+  color: var(--main-text-color);
 }
 
 @media (max-width: 960px) {

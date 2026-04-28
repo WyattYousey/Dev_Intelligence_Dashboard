@@ -76,7 +76,7 @@ const LoginPage = () => {
         </button>
       </div>
 
-      {error && <p className="error">{error}</p>}
+      {error && <p className="login_page__error">{error}</p>}
     </div>
   );
 };

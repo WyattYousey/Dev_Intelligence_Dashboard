@@ -17,6 +17,13 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useLocalStorage('user', null);
   const [currentRepo, setCurrentRepo] = useLocalStorage('currentRepo', null);
+  const [screenWidth, setScreenWidth] = useState(0);
+
+  window.addEventListener('resize', function () {
+    const width = window.innerWidth;
+
+    setScreenWidth(width);
+  });
 
   return (
     <Routes>
@@ -26,7 +33,7 @@ function App() {
         path="/"
         element={
           <ProtectedRoute>
-            <HomePage />
+            <HomePage screenWidth={screenWidth} />
           </ProtectedRoute>
         }
       />
@@ -35,6 +42,7 @@ function App() {
         element={
           <ProtectedRoute>
             <UserPage
+              screenWidth={screenWidth}
               setCurrentUser={setCurrentUser}
               loading={loading}
               setLoading={setLoading}
@@ -47,6 +55,7 @@ function App() {
         element={
           <ProtectedRoute>
             <RepoPage
+              screenWidth={screenWidth}
               setCurrentRepo={setCurrentRepo}
               setLoading={setLoading}
               loading={loading}

@@ -4,7 +4,7 @@ import { validateUserSearch } from '../utils/validateUserSearch';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
 
 const SearchBar = ({ placeholder = 'Search...', onSubmit }) => {
-  const [value, setValue] = useLocalStorage('value', ''); // TODO: saving form input to localStorage may be unexpected UX for search state
+  const [value, setValue] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = (e) => {

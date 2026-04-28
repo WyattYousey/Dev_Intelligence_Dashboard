@@ -16,7 +16,6 @@ import ProtectedRoute from './ProtectedRoute';
 function App() {
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useLocalStorage('user', null);
-  const [, setCurrentRepo] = useLocalStorage('currentRepo', null); // TODO: currentRepo is stored but currently unused
   const [screenWidth, setScreenWidth] = useState(0);
 
   useEffect(() => {
@@ -60,7 +59,6 @@ function App() {
           <ProtectedRoute>
             <RepoPage
               screenWidth={screenWidth}
-              setCurrentRepo={setCurrentRepo}
               setLoading={setLoading}
               loading={loading}
               user={currentUser}

@@ -8,7 +8,7 @@ const ReadMe = ({ readme }) => {
     <div className="read_me__markdown">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeRaw]} // TODO: rehypeRaw allows HTML in markdown and may need sanitization for security
+        rehypePlugins={[rehypeRaw]}
         components={{
           img: ({ src, alt }) => (
             <img src={src} alt={alt} style={{ maxWidth: '100%' }} />

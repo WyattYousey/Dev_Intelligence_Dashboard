@@ -18,7 +18,8 @@ const LoginPage = ({ screenWidth }) => {
 
   const navigate = useNavigate();
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
     const user = loginUser(username, password);
 
     if (!user) {
@@ -32,7 +33,8 @@ const LoginPage = ({ screenWidth }) => {
     navigate('/');
   };
 
-  const handleRegister = () => {
+  const handleRegister = (e) => {
+    e.preventDefault();
     try {
       register(username, password);
       handleLogin();
@@ -73,20 +75,18 @@ const LoginPage = ({ screenWidth }) => {
           <button
             type="button"
             className="login_page__button"
-            onClick={handleLogin}
+            onClick={(e) => handleLogin(e)}
           >
             Login
           </button>
           <button
             type="button"
             className="login_page__button"
-            onClick={handleRegister}
+            onClick={(e) => handleRegister(e)}
           >
             Create Account
           </button>
         </div>
-
-        {/* TODO: make this a form submit handler or explicitly prevent default to avoid accidental submits */}
 
         {error && <p className="login_page__error">{error}</p>}
       </div>

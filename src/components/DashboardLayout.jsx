@@ -2,7 +2,7 @@ import './styles/DashboardLayout.css';
 
 const DashboardLayout = ({ type, children, mobileWithReadme }) => {
   const gridClass = mobileWithReadme
-    ? `dashboard__grid_${type || 'default'}_mobile` // TODO: guard against undefined type when mobileWithReadme true
+    ? `dashboard__grid_${type || 'default'}_mobile`
     : `dashboard__grid_${type || 'default'}`;
 
   return (

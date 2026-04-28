@@ -26,7 +26,6 @@ const RepoPage = ({
   screenWidth,
   loading,
   setLoading,
-  setCurrentRepo,
   user,
 }) => {
   const { username, repoName } = useParams();
@@ -51,7 +50,6 @@ const RepoPage = ({
 
       if (cached) {
         setRepo(cached);
-        setCurrentRepo(cached);
         return;
       }
 
@@ -69,14 +67,13 @@ const RepoPage = ({
       }));
 
       setRepo(repoData);
-      setCurrentRepo(repoData);
     };
 
     loadRepo();
-  }, [username, repoName, repoCache, setCurrentRepo, setLoading]); // TODO: include repoCache so the latest cache state is respected
+  }, [username, repoName, repoCache, setLoading]);
 
   useEffect(() => {
-    if (!repo?.name || !user?.login) return; // TODO: handle cases where repo page loads without currentUser available
+    if (!repo?.name || !user?.login) return;
 
     const fetchExtras = async () => {
       const cached = repoReadmeCache[user.login]?.[repo.name];
@@ -115,8 +112,8 @@ const RepoPage = ({
         <Preloader />
       </div>
     );
-  } // TODO: if user is absent on direct repo page load, fetch GitHub user data instead of stalling on preload
-
+  }
+  
   return (
     <div className="repo_page">
       <Header screenWidth={screenWidth}>

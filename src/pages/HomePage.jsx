@@ -3,7 +3,7 @@ import SearchBar from '../components/SearchBar';
 import '../components/styles/HomePage.css';
 import Header from '../components/Header';
 
-const HomePage = () => {
+const HomePage = ({ screenWidth }) => {
   const navigate = useNavigate();
 
   const handleUserSearch = async (username) => {
@@ -12,13 +12,13 @@ const HomePage = () => {
 
   return (
     <div className="home_page">
-      <Header />
-        <div className="home_page__main_content">
-          <SearchBar
-            placeholder="Search for any GitHub user..."
-            onSubmit={handleUserSearch}
-          />
-        </div>
+      <Header screenWidth={screenWidth} />
+      <div className="home_page__main_content">
+        <SearchBar
+          placeholder="Search for any GitHub user..."
+          onSubmit={handleUserSearch}
+        />
+      </div>
     </div>
   );
 };

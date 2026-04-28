@@ -16,13 +16,13 @@ A short demo and pitch video is included to explain the motivation, core feature
 The following screenshots show the app in use across different screens:
 
 1. **Homepage search** - user lookup input and focus behavior.
-   [Homepage Search](./screenshots/homepage.png)
+   ![Homepage Search](./screenshots/homepage.png)
 2. **User dashboard** - profile summary, metrics, and repository cards.
-   [User Dashboard](./screenshots/user-dashboard.png)
+   ![User Dashboard](./screenshots/user-dashboard.png)
 3. **Repository detail page** - health score, metadata, language breakdown, and rendered README.
-   [Repo Details](./screenshots/repo-detail.png)
+   ![Repo Details](./screenshots/repo-detail.png)
 4. **Mobile/tablet responsive layout** - stacked dashboard widgets and mobile README placement.
-   [Mobile Layout](./screenshots/mobile-layout.png)
+   ![Mobile Layout](./screenshots/mobile-layout.png)
 
 ## What the app does
 

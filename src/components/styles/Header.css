@@ -21,10 +21,12 @@
 
 .header__title {
   font-family: var(--font-family-base);
+  white-space: nowrap;
   color: var(--main-text-color);
 }
 
 .header__content {
+  white-space: nowrap;
   display: flex;
   align-items: center;
   font-family: var(--font-family-base);

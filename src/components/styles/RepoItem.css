@@ -28,6 +28,7 @@
 }
 
 .repo_item__name {
+  margin-top: var(--spacing-3);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-extraBold);
   color: var(--main-text-color);
@@ -48,4 +49,19 @@
 
 .repo_item__data {
   color: var(--secondary-text-color);
+}
+
+@media (max-width: 915px) {
+  .repo_item {
+    width: 200px;
+    height: 125px;
+    gap: 0;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .repo_item::-webkit-scrollbar {
+    display: none;
+  }
 }

@@ -12,10 +12,10 @@ const Header = ({ children }) => {
 
   return (
     <header className="header">
-      <div className="header__branding">
+      <a href="/" className="header__branding">
         <img className="header__logo" src={logo} alt="logo" />
         <h1 className="header__title">Dev Intelligence Dashboard</h1>
-      </div>
+      </a>
       {children && <div className="header__content">{children}</div>}
       <button onClick={handleSignout} className="header__signout">
         Signout

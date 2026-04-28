@@ -23,6 +23,7 @@
   padding: var(--spacing-2);
   font-family: var(--font-family-base);
   color: var(--main-text-color);
+  text-align: center;
 }
 
 .login_page__input {

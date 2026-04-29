@@ -11,7 +11,7 @@
 A short demo and pitch video is included to explain the motivation, core features, and the user experience of the app:
 
 - **Demo video**: [https://example.com/demo-video](https://example.com/demo-video)
-- **Pitch video**: [https://example.com/pitch-video](https://example.com/pitch-video)
+- **Pitch video**: [https://www.loom.com/share/4d345da45d0e45fdb4ce2ad560ffea5b](https://www.loom.com/share/4d345da45d0e45fdb4ce2ad560ffea5b)
 
 > The demo covers searching for a GitHub user, viewing profile metrics, repository previews, and the responsive README dashboard behavior on tablet/mobile.
 

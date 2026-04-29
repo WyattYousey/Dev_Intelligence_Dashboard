@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--spacing-2);
 }
 
 .header__branding {
@@ -26,9 +27,9 @@
 }
 
 .header__content {
-  white-space: nowrap;
   display: flex;
   align-items: center;
+  max-width: 800px;
   font-family: var(--font-family-base);
   font-size: var(--font-size-md);
   color: var(--main-text-color);

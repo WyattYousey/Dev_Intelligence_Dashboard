@@ -37,7 +37,7 @@ const LoginPage = ({ screenWidth }) => {
     e.preventDefault();
     try {
       register(username, password);
-      handleLogin();
+      handleLogin(e);
     } catch (err) {
       setError(err.message);
     }
@@ -49,6 +49,7 @@ const LoginPage = ({ screenWidth }) => {
       navigate('/');
     }
   }, []);
+
   return (
     <div className="login_page">
       <Header screenWidth={screenWidth} />

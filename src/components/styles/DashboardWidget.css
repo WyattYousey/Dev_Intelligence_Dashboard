@@ -2,7 +2,6 @@
   overflow: hidden;
   background: var(--card-bg-color);
   border: var(--accent-color) solid var(--border-width-thin);
-  padding: 16px;
   border-radius: var(--border-radius-md);
   font-family: var(--font-family-base);
   -ms-overflow-style: none;
@@ -14,12 +13,13 @@
 }
 
 .widget__title {
-  margin-bottom: 8px;
+  padding: var(--spacing-3);
   font-size: var(--font-size-lg);
   color: var(--main-text-color);
 }
 
 .widget__content {
+  padding: var(--spacing-2);
   color: var(--muted-text-color);
 }
 

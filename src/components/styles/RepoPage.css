@@ -32,6 +32,9 @@
 }
 
 @media (max-width: 640px) {
+  .repo_page__main_content {
+    padding: var(--spacing-3);
+  }
   .repo_page__repo_content {
     font-size: var(--font-size-sm);
   }

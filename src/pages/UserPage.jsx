@@ -176,27 +176,51 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
           ) : null}
 
           {screenWidth < 1024 ? (
-            <DashboardWidget
-              type="mobile"
-              size="large"
-              title="Repositories"
-              className="widget--repos"
-            >
-              <div className="user_page__repos">
-                {slicedRepos.map((repo) => (
-                  <RepoItem key={repo.id} repo={repo} user={user} />
-                ))}
+            readme ? (
+              <DashboardWidget
+                type="user"
+                size="medium"
+                title="Repositories"
+                className="widget--repos"
+              >
+                <div className="user_page__repos">
+                  {slicedRepos.map((repo) => (
+                    <RepoItem key={repo.id} repo={repo} user={user} />
+                  ))}
 
-                {visibleCount < repos.length && (
-                  <button
-                    onClick={() => setVisibleCount((p) => p + 3)}
-                    className="user_page__show_more"
-                  >
-                    Show More
-                  </button>
-                )}
-              </div>
-            </DashboardWidget>
+                  {visibleCount < repos.length && (
+                    <button
+                      onClick={() => setVisibleCount((p) => p + 3)}
+                      className="user_page__show_more"
+                    >
+                      Show More
+                    </button>
+                  )}
+                </div>
+              </DashboardWidget>
+            ) : (
+              <DashboardWidget
+                type="mobile"
+                size="large"
+                title="Repositories"
+                className="widget--repos"
+              >
+                <div className="user_page__repos">
+                  {slicedRepos.map((repo) => (
+                    <RepoItem key={repo.id} repo={repo} user={user} />
+                  ))}
+
+                  {visibleCount < repos.length && (
+                    <button
+                      onClick={() => setVisibleCount((p) => p + 3)}
+                      className="user_page__show_more"
+                    >
+                      Show More
+                    </button>
+                  )}
+                </div>
+              </DashboardWidget>
+            )
           ) : (
             <DashboardWidget
               type="user"

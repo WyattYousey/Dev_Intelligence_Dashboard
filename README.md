@@ -2,6 +2,10 @@
 
 **Dev Intelligence Dashboard** is a recruiter/developer-facing GitHub dashboard built with React and Vite. It allows users to search for GitHub profiles, inspect a user's repositories, and view repo details and README content in a modern dashboard layout.
 
+## Live Deployment
+
+- **Live Deployment** This [Link](https://wyattyousey.github.io/Dev_Intelligence_Dashboard/) will take you to the live website so you can check it out for yourself!
+
 ## Demo & Pitch Video
 
 A short demo and pitch video is included to explain the motivation, core features, and the user experience of the app:

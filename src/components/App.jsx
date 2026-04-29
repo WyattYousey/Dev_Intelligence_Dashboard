@@ -1,57 +1,77 @@
 import { Routes } from 'react-router';
 import { Route } from 'react-router';
+
 import './styles/App.css';
-import HomePage from './HomePage';
-import RepoPage from './RepoPage';
-import UserPage from './UserPage';
-import { useState } from 'react';
+
+import HomePage from '../pages/HomePage';
+import RepoPage from '../pages/RepoPage';
+import UserPage from '../pages/UserPage';
+import NotFound from '../pages/NotFound';
+
+import { useEffect, useState } from 'react';
+import { useLocalStorage } from '../hooks/useLocalStorageHook';
+import LoginPage from '../pages/LoginPage';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
-  const [repos, setRepos] = useState(null);
-  
+  const [currentUser, setCurrentUser] = useLocalStorage('user', null);
+  const [screenWidth, setScreenWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
     <Routes>
+      <Route path="/login" element={<LoginPage />} />
+
       <Route
         path="/"
         element={
-          <HomePage
-            loading={loading}
-            setLoading={setLoading}
-            error={error}
-            setError={setError}
-            user={user}
-            setUser={setUser}
-          />
+          <ProtectedRoute>
+            <HomePage screenWidth={screenWidth} />
+          </ProtectedRoute>
         }
       />
       <Route
         path="/user/:username"
         element={
-          <UserPage
-            loading={loading}
-            setLoading={setLoading}
-            error={error}
-            setError={setError}
-            user={user}
-            setUser={setUser}
-          />
+          <ProtectedRoute>
+            <UserPage
+              screenWidth={screenWidth}
+              setCurrentUser={setCurrentUser}
+              loading={loading}
+              setLoading={setLoading}
+            />
+          </ProtectedRoute>
         }
       />
       <Route
-        path="/repo/:user/:repos"
+        path="/repos/:username/:repoName"
         element={
-          <RepoPage
-            loading={loading}
-            setLoading={setLoading}
-            error={error}
-            setError={setError}
-            user={user}
-            repos={repos}
-            setRepos={setRepos}
-          />
+          <ProtectedRoute>
+            <RepoPage
+              screenWidth={screenWidth}
+              setLoading={setLoading}
+              loading={loading}
+              user={currentUser}
+            />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="*"
+        element={
+          <ProtectedRoute>
+            <NotFound screenWidth={screenWidth} />
+          </ProtectedRoute>
         }
       />
     </Routes>

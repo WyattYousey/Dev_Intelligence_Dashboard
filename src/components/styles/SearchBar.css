@@ -1,0 +1,103 @@
+.searchbar__wrapper {
+  position: relative;
+  width: 40%;
+  font-family: var(--font-family-base);
+}
+
+.searchbar {
+  width: 100%;
+  padding: var(--spacing-3);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-tight);
+  border: var(--border-width-thin) solid var(--inverse-border-color);
+  background-color: var(--card-bg-color);
+  color: var(--main-text-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.searchbar::placeholder {
+  color: var(--main-text-color);
+}
+
+.searchbar:focus {
+  background-color: var(--active-bg-color);
+  color: var(--inverse-text-color);
+  outline: var(--focus-outline-color);
+  box-shadow: var(--shadow-lg);
+  transform: scale(1.05);
+  transition:
+    transform 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6),
+    background-color 0.8s ease-in-out;
+  border-color: inherit;
+}
+
+.searchbar:focus::placeholder {
+  color: var(--inverse-text-color);
+}
+
+.searchbar__submit_btn {
+  position: absolute;
+  top: 7px;
+  right: -20px;
+  background: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  z-index: 500;
+  color: var(--accent-color);
+}
+
+.searchbar__submit_btn:hover {
+  cursor: pointer;
+  color: var(--dark-accent-color);
+  transition: color 0.5s ease-in-out;
+}
+
+.searchbar:focus + .searchbar__submit_btn {
+  color: var(--medium-accent-color);
+  right: -40px;
+  transition:
+    right 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6),
+    color 0.5s ease-in-out;
+}
+
+.searchbar:focus + .searchbar__submit_btn:hover {
+  cursor: pointer;
+  color: var(--dark-accent-color);
+  transition: color 0.5s ease-in-out;
+}
+
+.searchbar__error {
+  padding-left: var(--spacing-3);
+  padding-top: var(--spacing-4);
+  color: var(--accent-error);
+  font-weight: var(--font-weight-bold);
+}
+
+@media (max-width: 1025px) {
+  .searchbar:focus + .searchbar__submit_btn {
+    right: -35px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .searchbar__wrapper {
+    width: 60%;
+  }
+  .searchbar:focus + .searchbar__submit_btn {
+    right: -30px;
+  }
+}
+
+@media (max-width: 640px) {
+  .searchbar__wrapper {
+    width: 80%;
+  }
+
+  .searchbar:focus + .searchbar__submit_btn {
+    right: -25px;
+  }
+}

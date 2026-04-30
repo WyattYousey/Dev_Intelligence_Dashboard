@@ -30,7 +30,7 @@ function App() {
   }, []);
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/login" element={<LoginPage screenWidth={screenWidth} />} />
 
       <Route
         path="/"

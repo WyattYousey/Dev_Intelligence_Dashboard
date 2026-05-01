@@ -5,7 +5,7 @@ import '../components/styles/UserPage.css';
 
 import Header from '../components/Header';
 import RepoItem from '../components/RepoItem';
-import Preloader from '../components/PreLoader';
+import Preloader from '../components/Preloader';
 import ReadMe from '../components/ReadMe';
 import DashboardLayout from '../components/DashboardLayout';
 import DashboardWidget from '../components/DashboardWidget';

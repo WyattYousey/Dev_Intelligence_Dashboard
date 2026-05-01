@@ -12,7 +12,7 @@ import MetaGrid from '../components/MetaGrid';
 import ReadMe from '../components/ReadMe';
 import LanguageChart from '../components/LanguageChart';
 import Activity from '../components/Activity';
-import Preloader from '../components/PreLoader';
+import Preloader from '../components/Preloader';
 import PrimaryLanguage from '../components/PrimaryLanguage';
 
 import '../components/styles/RepoPage.css';

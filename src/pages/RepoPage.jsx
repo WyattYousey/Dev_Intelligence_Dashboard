@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
 import { useParams } from 'react-router';
+import { CACHE_KEYS, UI } from '../config/constants';
 
 import Header from '../components/Header';
 import DashboardLayout from '../components/DashboardLayout';
@@ -21,6 +22,7 @@ import { decodeBase64 } from '../utils/decodeBase64';
 import { fixGitHubImages } from '../utils/fixReadMeImagePaths';
 import { getRepo, getRepoData } from '../utils/GithubApi';
 import { normalizeRepoDetails } from '../utils/normalize/normalizeRepoDetails';
+import ErrorBanner from '../components/ErrorBanner';
 
 const RepoPage = ({ screenWidth, loading, setLoading, user }) => {
   const { username, repoName } = useParams();
@@ -29,13 +31,48 @@ const RepoPage = ({ screenWidth, loading, setLoading, user }) => {
   const [languageData, setLanguageData] = useState(null);
   const [readme, setReadMe] = useState(null);
 
-  const [repoCache, setRepoCache] = useLocalStorage('repo-cache', {});
+  const [repoCache, setRepoCache] = useLocalStorage(CACHE_KEYS.REPOS, {});
   const [repoReadmeCache, setRepoReadmeCache] = useLocalStorage(
-    'repo-readme-cache',
+    CACHE_KEYS.README,
     {}
   );
+  const [currentError, setCurrentError] = useState(null);
+  const queueRef = useRef([]);
+  const runningRef = useRef(false);
 
   const normalizedRepo = repo ? normalizeRepoDetails(repo, languageData) : null;
+
+  const handleClose = () => {
+    setCurrentError(null);
+  };
+
+  const runQueue = async () => {
+    runningRef.current = true;
+
+    while (queueRef.current.length > 0) {
+      const next = queueRef.current.shift();
+
+      setCurrentError(next.message);
+
+      await new Promise((res) => setTimeout(res, UI.ERROR_DURATION));
+
+      setCurrentError(null);
+
+      await new Promise((res) => setTimeout(res, UI.ERROR_STAGGER));
+    }
+
+    runningRef.current = false;
+  };
+
+  const pushError = useCallback((key, message) => {
+    if (queueRef.current.some((e) => e.key === key)) return;
+
+    queueRef.current.push({ key, message });
+
+    if (!runningRef.current) {
+      runQueue();
+    }
+  }, []);
 
   useEffect(() => {
     if (!username || !repoName) return;
@@ -83,6 +120,10 @@ const RepoPage = ({ screenWidth, loading, setLoading, user }) => {
           ? fixGitHubImages(decoded, user.login, repo.name)
           : null;
 
+        if (!finalReadme) {
+          pushError('readme', 'README not found');
+        }
+
         setRepoReadmeCache((prev) => ({
           ...prev,
           [user.login]: {
@@ -95,105 +136,118 @@ const RepoPage = ({ screenWidth, loading, setLoading, user }) => {
       setReadMe(finalReadme);
 
       const lang = await getRepoData(user.login, repo.name, 'languages');
-      setLanguageData(lang);
+
+      if (!lang || Object.keys(lang).length === 0) {
+        pushError('languages', 'Language data not found');
+      } else {
+        setLanguageData(lang);
+      }
     };
 
     fetchExtras();
-  }, [repo?.name, repoReadmeCache, user, setRepoReadmeCache]);
-
-  if (loading || !repo || !normalizedRepo || !user) {
-    return (
-      <div className="repo_page">
-        <Preloader />
-      </div>
-    );
-  }
+  }, [repo?.name, repoReadmeCache, user, setRepoReadmeCache, pushError]);
 
   return (
     <div className="repo_page">
-      
-      <Header screenWidth={screenWidth}>
-        {screenWidth < 1324 ? (
-          <></>
-        ) : (
-          <>
-            <img
-              className="header__user-avatar"
-              src={user.avatarUrl}
-              alt={user.login}
-            />
-            <div className="header__user-info">
-              <h1>
-                {normalizedRepo.name}
-                <span className="header__user-login">@{user.login}</span>
-              </h1>
-              <p>{normalizedRepo.description}</p>
-            </div>
-          </>
-        )}
-      </Header>
+      {currentError && (
+        <ErrorBanner message={currentError} onClose={handleClose} />
+      )}
 
-      <div className="repo_page__main_content">
-        {screenWidth > 1324 ? (
-          <></>
-        ) : (
-          <div className="repo_page__repo_content">
-            <img
-              className="header__user-avatar"
-              src={user.avatarUrl}
-              alt={user.login}
-            />
-            <div className="header__user-info">
-              <h1>
-                {normalizedRepo.name}{' '}
-                <span className="header__user-login">@{user.login}</span>
-              </h1>
-              <p>{normalizedRepo.description}</p>
-            </div>
+      {loading || !repo ? (
+        <Preloader />
+      ) : (
+        <>
+          <Header screenWidth={screenWidth}>
+            {screenWidth < 1324 ? (
+              <></>
+            ) : (
+              <>
+                <img
+                  className="header__user-avatar"
+                  src={user.avatarUrl}
+                  alt={user.login}
+                />
+                <div className="header__user-info">
+                  <h1>
+                    {normalizedRepo.name}
+                    <span className="header__user-login">@{user.login}</span>
+                  </h1>
+                  <p>{normalizedRepo.description}</p>
+                </div>
+              </>
+            )}
+          </Header>
+
+          <div className="repo_page__main_content">
+            {screenWidth > 1324 ? (
+              <></>
+            ) : (
+              <div className="repo_page__repo_content">
+                <img
+                  className="header__user-avatar"
+                  src={user.avatarUrl}
+                  alt={user.login}
+                />
+                <div className="header__user-info">
+                  <h1>
+                    {normalizedRepo.name}{' '}
+                    <span className="header__user-login">@{user.login}</span>
+                  </h1>
+                  <p>{normalizedRepo.description}</p>
+                </div>
+              </div>
+            )}
+
+            <DashboardLayout>
+              <DashboardWidget type="repo" size="small" title="Health Score">
+                <HealthScore score={normalizedRepo.healthScore} />
+              </DashboardWidget>
+
+              <DashboardWidget type="repo" size="small" title="Key Stats">
+                <StatCard
+                  label="Stars:"
+                  value={normalizedRepo.stargazersCount}
+                />
+                <StatCard label="Forks:" value={normalizedRepo.forks} />
+                <StatCard label="Issues:" value={normalizedRepo.openIssues} />
+              </DashboardWidget>
+
+              <DashboardWidget type="repo" size="small" title="Activity">
+                <Activity daysSinceUpdate={normalizedRepo.daysSinceUpdate} />
+              </DashboardWidget>
+
+              <DashboardWidget
+                type="repo"
+                size="small"
+                title="Primary Language"
+              >
+                <PrimaryLanguage
+                  primaryLanguage={normalizedRepo.primaryLanguage}
+                  primaryLanguagePercentage={
+                    normalizedRepo.primaryLanguagePercentage
+                  }
+                />
+              </DashboardWidget>
+
+              {screenWidth < 640 ? (
+                <></>
+              ) : (
+                <DashboardWidget type="repo" size="medium" title="Languages">
+                  <LanguageChart languageData={normalizedRepo.languageData} />
+                </DashboardWidget>
+              )}
+
+              <DashboardWidget type="repo" size="medium" title="Metadata">
+                <MetaGrid data={normalizedRepo.metaData} />
+              </DashboardWidget>
+
+              <DashboardWidget type="repo" size="large" title="README">
+                <ReadMe readme={readme} />
+              </DashboardWidget>
+            </DashboardLayout>
           </div>
-        )}
-
-        <DashboardLayout>
-          <DashboardWidget type="repo" size="small" title="Health Score">
-            <HealthScore score={normalizedRepo.healthScore} />
-          </DashboardWidget>
-
-          <DashboardWidget type="repo" size="small" title="Key Stats">
-            <StatCard label="Stars:" value={normalizedRepo.stargazersCount} />
-            <StatCard label="Forks:" value={normalizedRepo.forks} />
-            <StatCard label="Issues:" value={normalizedRepo.openIssues} />
-          </DashboardWidget>
-
-          <DashboardWidget type="repo" size="small" title="Activity">
-            <Activity daysSinceUpdate={normalizedRepo.daysSinceUpdate} />
-          </DashboardWidget>
-
-          <DashboardWidget type="repo" size="small" title="Primary Language">
-            <PrimaryLanguage
-              primaryLanguage={normalizedRepo.primaryLanguage}
-              primaryLanguagePercentage={
-                normalizedRepo.primaryLanguagePercentage
-              }
-            />
-          </DashboardWidget>
-
-          {screenWidth < 640 ? (
-            <></>
-          ) : (
-            <DashboardWidget type="repo" size="medium" title="Languages">
-              <LanguageChart languageData={normalizedRepo.languageData} />
-            </DashboardWidget>
-          )}
-
-          <DashboardWidget type="repo" size="medium" title="Metadata">
-            <MetaGrid data={normalizedRepo.metaData} />
-          </DashboardWidget>
-
-          <DashboardWidget type="repo" size="large" title="README">
-            <ReadMe readme={readme} />
-          </DashboardWidget>
-        </DashboardLayout>
-      </div>
+        </>
+      )}
     </div>
   );
 };

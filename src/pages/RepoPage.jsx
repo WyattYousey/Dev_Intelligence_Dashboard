@@ -22,12 +22,7 @@ import { fixGitHubImages } from '../utils/fixReadMeImagePaths';
 import { getRepo, getRepoData } from '../utils/GithubApi';
 import { normalizeRepoDetails } from '../utils/normalize/normalizeRepoDetails';
 
-const RepoPage = ({
-  screenWidth,
-  loading,
-  setLoading,
-  user,
-}) => {
+const RepoPage = ({ screenWidth, loading, setLoading, user }) => {
   const { username, repoName } = useParams();
 
   const [repo, setRepo] = useState(null);
@@ -45,9 +40,9 @@ const RepoPage = ({
   useEffect(() => {
     if (!username || !repoName) return;
 
-    const loadRepo = async () => {
-      const cached = repoCache?.[username]?.[repoName];
+    const cached = repoCache?.[username]?.[repoName];
 
+    const loadRepo = async () => {
       if (cached) {
         setRepo(cached);
         return;
@@ -70,7 +65,7 @@ const RepoPage = ({
     };
 
     loadRepo();
-  }, [username, repoName, repoCache, setLoading]);
+  }, [username, repoName, repoCache, setLoading, setRepoCache]);
 
   useEffect(() => {
     if (!repo?.name || !user?.login) return;
@@ -104,7 +99,7 @@ const RepoPage = ({
     };
 
     fetchExtras();
-  }, [repo?.name, repoReadmeCache, user]);
+  }, [repo?.name, repoReadmeCache, user, setRepoReadmeCache]);
 
   if (loading || !repo || !normalizedRepo || !user) {
     return (
@@ -113,7 +108,7 @@ const RepoPage = ({
       </div>
     );
   }
-  
+
   return (
     <div className="repo_page">
       <Header screenWidth={screenWidth}>

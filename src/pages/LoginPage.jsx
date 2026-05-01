@@ -48,7 +48,7 @@ const LoginPage = ({ screenWidth }) => {
     if (token && isTokenValid(token)) {
       navigate('/');
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="login_page">

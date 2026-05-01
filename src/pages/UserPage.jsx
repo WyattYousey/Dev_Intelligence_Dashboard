@@ -26,11 +26,14 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
   const [userCache, setUserCache] = useLocalStorage('user-cache', {});
   const [readmeCache, setReadmeCache] = useLocalStorage('readme-cache', {});
 
+  const cachedUser = userCache[username];
+  const cachedReadme = readmeCache[username];
+
   useEffect(() => {
     if (!username) return;
 
     async function loadUserPage() {
-      let userData = userCache[username];
+      let userData = cachedUser;
 
       if (!userData) {
         userData = await runWithLoader(() => getUser(username), setLoading);
@@ -55,8 +58,6 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
         setRepos(repoData);
       }
 
-      const cachedReadme = readmeCache[username];
-
       if (cachedReadme !== undefined) {
         setReadMe(cachedReadme);
       } else {
@@ -77,7 +78,15 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
     }
 
     loadUserPage();
-  }, [username]);
+  }, [
+    username,
+    cachedUser,
+    cachedReadme,
+    setCurrentUser,
+    setLoading,
+    setReadmeCache,
+    setUserCache,
+  ]);
 
   const slicedRepos = repos.slice(0, visibleCount);
 

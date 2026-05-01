@@ -24,6 +24,7 @@ const SearchBar = ({ placeholder = 'Search...', onSubmit }) => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
+        required
       />
 
       <button className="searchbar__submit_btn" type="submit">

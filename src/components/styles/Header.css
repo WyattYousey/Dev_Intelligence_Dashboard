@@ -54,6 +54,25 @@
   display: flex;
   gap: var(--spacing-4);
   color: var(--accent-color);
+  font-family: var(--font-family-base);
+}
+
+.header__user-stats__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.header__user-stats__label {
+  font-size: var(--font-size-sm);
+  color: var(--secondary-text-color);
+}
+
+.header__user-stats__value {
+  margin: 0;
+  font-weight: var(--font-weight-bold);
+  color: var(--accent-color);
 }
 
 .header__signout {

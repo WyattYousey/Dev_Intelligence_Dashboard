@@ -14,7 +14,11 @@ const Header = ({ screenWidth, children }) => {
   return (
     <header className="header">
       <Link to="/" className="header__branding">
-        <img className="header__logo" src={logo} alt="logo" />
+        <img
+          className="header__logo"
+          src={logo}
+          alt="Dev Intelligence Dashboard logo"
+        />
         {screenWidth < 741 ? (
           <h1 className="header__title">D.I.D</h1>
         ) : (

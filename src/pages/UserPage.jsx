@@ -113,7 +113,7 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
   const slicedRepos = repos.slice(0, visibleCount);
 
   return (
-    <div className="user_page">
+    <main className="user_page">
       {error && <ErrorBanner message={error} onClose={() => setError(null)} />}
 
       {loading || !user ? (
@@ -128,7 +128,7 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
                 <img
                   className="header__user-avatar"
                   src={user.avatar_url || user.avatarUrl}
-                  alt={user.login}
+                  alt={`${user.login}'s GitHub avatar`}
                 />
 
                 <div className="header__user-info">
@@ -139,25 +139,42 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
 
                   <p>{user.bio}</p>
 
-                  <div className="header__user-stats">
-                    <span>{user.followers} followers</span>
-                    <span>{user.following} following</span>
-                    <span>{user.publicRepos} repos</span>
-                  </div>
+                  <dl className="header__user-stats">
+                    <div className="header__user-stats__item">
+                      <dt className="header__user-stats__label">Followers</dt>
+                      <dd className="header__user-stats__value">
+                        {user.followers}
+                      </dd>
+                    </div>
+                    <div className="header__user-stats__item">
+                      <dt className="header__user-stats__label">Following</dt>
+                      <dd className="header__user-stats__value">
+                        {user.following}
+                      </dd>
+                    </div>
+                    <div className="header__user-stats__item">
+                      <dt className="header__user-stats__label">
+                        Public Repos
+                      </dt>
+                      <dd className="header__user-stats__value">
+                        {user.publicRepos}
+                      </dd>
+                    </div>
+                  </dl>
                 </div>
               </>
             )}
           </Header>
 
-          <div className="user_page__content">
+          <section className="user_page__content">
             {screenWidth > 1024 ? (
               <></>
             ) : (
-              <div className="user_page__user_content">
+              <section className="user_page__user_content">
                 <img
                   className="header__user-avatar"
                   src={user.avatar_url || user.avatarUrl}
-                  alt={user.login}
+                  alt={`${user.login}'s GitHub avatar`}
                 />
 
                 <div className="header__user-info">
@@ -168,13 +185,30 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
 
                   <p>{user.bio}</p>
 
-                  <div className="header__user-stats">
-                    <span>{user.followers} followers</span>
-                    <span>{user.following} following</span>
-                    <span>{user.publicRepos} repos</span>
-                  </div>
+                  <dl className="header__user-stats">
+                    <div className="header__user-stats__item">
+                      <dt className="header__user-stats__label">Followers</dt>
+                      <dd className="header__user-stats__value">
+                        {user.followers}
+                      </dd>
+                    </div>
+                    <div className="header__user-stats__item">
+                      <dt className="header__user-stats__label">Following</dt>
+                      <dd className="header__user-stats__value">
+                        {user.following}
+                      </dd>
+                    </div>
+                    <div className="header__user-stats__item">
+                      <dt className="header__user-stats__label">
+                        Public Repos
+                      </dt>
+                      <dd className="header__user-stats__value">
+                        {user.publicRepos}
+                      </dd>
+                    </div>
+                  </dl>
                 </div>
-              </div>
+              </section>
             )}
             <DashboardLayout
               type="user"
@@ -274,10 +308,10 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
                 </DashboardWidget>
               )}
             </DashboardLayout>
-          </div>
+          </section>
         </>
       )}
-    </div>
+    </main>
   );
 };
 

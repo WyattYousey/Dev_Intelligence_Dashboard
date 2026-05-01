@@ -148,7 +148,7 @@ const RepoPage = ({ screenWidth, loading, setLoading, user }) => {
   }, [repo?.name, repoReadmeCache, user, setRepoReadmeCache, pushError]);
 
   return (
-    <div className="repo_page">
+    <main className="repo_page">
       {currentError && (
         <ErrorBanner message={currentError} onClose={handleClose} />
       )}
@@ -165,7 +165,7 @@ const RepoPage = ({ screenWidth, loading, setLoading, user }) => {
                 <img
                   className="header__user-avatar"
                   src={user.avatarUrl}
-                  alt={user.login}
+                  alt={`${user.login}'s GitHub avatar`}
                 />
                 <div className="header__user-info">
                   <h1>
@@ -178,24 +178,24 @@ const RepoPage = ({ screenWidth, loading, setLoading, user }) => {
             )}
           </Header>
 
-          <div className="repo_page__main_content">
+          <section className="repo_page__main_content">
             {screenWidth > 1324 ? (
               <></>
             ) : (
-              <div className="repo_page__repo_content">
+              <section className="repo_page__repo_content">
                 <img
                   className="header__user-avatar"
                   src={user.avatarUrl}
-                  alt={user.login}
+                  alt={`${user.login}'s GitHub avatar`}
                 />
                 <div className="header__user-info">
                   <h1>
-                    {normalizedRepo.name}{' '}
+                    {normalizedRepo.name}
                     <span className="header__user-login">@{user.login}</span>
                   </h1>
                   <p>{normalizedRepo.description}</p>
                 </div>
-              </div>
+              </section>
             )}
 
             <DashboardLayout>
@@ -245,10 +245,10 @@ const RepoPage = ({ screenWidth, loading, setLoading, user }) => {
                 <ReadMe readme={readme} />
               </DashboardWidget>
             </DashboardLayout>
-          </div>
+          </section>
         </>
       )}
-    </div>
+    </main>
   );
 };
 

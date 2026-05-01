@@ -15,6 +15,7 @@ import { getRepos, getUser, getUserReadMe } from '../utils/GithubApi';
 import { useLocalStorage } from '../hooks/useLocalStorageHook';
 import { runWithLoader } from '../utils/helpers';
 import { decodeBase64 } from '../utils/decodeBase64';
+import { CACHE_KEYS } from '../config/constants';
 
 const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
   const { username } = useParams();
@@ -23,9 +24,9 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
   const [repos, setRepos] = useState([]);
   const [readme, setReadMe] = useState('');
   const [visibleCount, setVisibleCount] = useState(3);
-  const [error, setError] = useState("User Undefined");
+  const [error, setError] = useState('User Undefined');
 
-  const [userCache, setUserCache] = useLocalStorage('user-cache', {});
+  const [userCache, setUserCache] = useLocalStorage(CACHE_KEYS.USER, {});
   const [readmeCache, setReadmeCache] = useLocalStorage('readme-cache', {});
 
   const cachedUser = userCache[username];
@@ -106,6 +107,7 @@ const UserPage = ({ screenWidth, setCurrentUser, loading, setLoading }) => {
     setLoading,
     setReadmeCache,
     setUserCache,
+    navigate,
   ]);
 
   const slicedRepos = repos.slice(0, visibleCount);

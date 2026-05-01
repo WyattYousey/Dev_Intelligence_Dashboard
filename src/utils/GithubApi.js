@@ -1,7 +1,8 @@
-import { normalizeRepos } from "./normalize/normalizeRepos";
-import { normalizeUser } from "./normalize/normalizeUser";
+import { API_BASE_URL } from '../config/constants';
+import { normalizeRepos } from './normalize/normalizeRepos';
+import { normalizeUser } from './normalize/normalizeUser';
 
-const baseUrl = 'https://api.github.com';
+const baseUrl = API_BASE_URL;
 
 export async function getUser(username) {
   try {
@@ -82,14 +83,14 @@ export async function getRepoData(username, repo, endpoint) {
       `${baseUrl}/repos/${username}/${repo}/${endpoint}`
     );
 
-     if (result.status === 404) {
-       console.log(`[INFO] No ${endpoint} found for ${repo}`);
-       return null;
-     }
+    if (result.status === 404) {
+      console.log(`[INFO] No ${endpoint} found for ${repo}`);
+      return null;
+    }
 
-     if (!result.ok) {
-       throw new Error(`HTTP error! status: ${result.status}`);
-     }
+    if (!result.ok) {
+      throw new Error(`HTTP error! status: ${result.status}`);
+    }
 
     const data = await result.json();
     return data;

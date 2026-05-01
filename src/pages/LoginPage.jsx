@@ -35,7 +35,12 @@ const LoginPage = ({ screenWidth }) => {
 
   const handleRegister = (e) => {
     e.preventDefault();
+    if (!username?.trim() || !password?.trim()) {
+      setError('Username and password are required');
+      return;
+    }
     try {
+
       register(username, password);
       handleLogin(e);
     } catch (err) {
@@ -62,6 +67,7 @@ const LoginPage = ({ screenWidth }) => {
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
           <input
             className="login_page__input"
@@ -69,6 +75,7 @@ const LoginPage = ({ screenWidth }) => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </form>
 

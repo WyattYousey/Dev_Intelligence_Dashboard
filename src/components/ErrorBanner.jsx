@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
+import { UI } from '../config/constants';
 import './styles/ErrorBanner.css';
 
-const ErrorBanner = ({ message, onClose, duration = 5000 }) => {
+const ErrorBanner = ({ message, onClose, duration = UI.ERROR_DURATION }) => {
   useEffect(() => {
     if (!message) return;
 

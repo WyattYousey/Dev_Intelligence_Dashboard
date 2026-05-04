@@ -1,0 +1,5 @@
+.activity__banner {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--accent-color);
+}

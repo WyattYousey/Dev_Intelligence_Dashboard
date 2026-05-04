@@ -1,0 +1,12 @@
+.not_found {
+  background-color: var(--main-bg-color);
+  height: 100vh;
+  font-family: var(--font-family-base);
+  color: var(--main-text-color);
+}
+
+.not_found__title {
+    color: var(--accent-error);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+}

@@ -1,0 +1,16 @@
+.primary_language {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.primary_language__percentage,
+.primary_language__name {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.primary_language__percentage {
+  color: var(--accent-color);
+}

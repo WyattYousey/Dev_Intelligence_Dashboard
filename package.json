@@ -3,18 +3,27 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://WyattYousey.github.io/Dev_Intelligence_Dashboard",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "predeploy": "vite build",
+    "deploy": "gh-pages -d dist",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "@fontsource-variable/raleway": "^5.2.8",
     "@fontsource/raleway": "^5.2.8",
+    "chart.js": "^4.5.1",
     "react": "^19.2.5",
+    "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.5",
-    "react-router": "^7.14.2"
+    "react-markdown": "^10.1.0",
+    "react-router": "^7.14.2",
+    "react-router-dom": "^7.14.2",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-github": "^12.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
@@ -24,6 +33,7 @@
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
+    "gh-pages": "^6.3.0",
     "globals": "^17.5.0",
     "vite": "^8.0.9"
   }

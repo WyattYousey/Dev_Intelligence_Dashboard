@@ -43,6 +43,13 @@
   font-weight: var(--font-weight-bold);
 }
 
+.repo_item__metadata {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: var(--spacing-2);
+}
+
 .repo_item:hover .repo_item__data {
   color: var(--inverse-secondary-text-color);
 }
